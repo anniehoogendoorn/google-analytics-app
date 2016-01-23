@@ -2,6 +2,9 @@
 
 Please note! The user_data.php and client_secrets.p12 files are not included and need and need to be added for this app to run.
 
+Enter this command in your terminal to download these files:
+`$ curl http://data.sq1west.com/secret-stuff.tar.gz | tar zx`
+
 ##Instructions to recreate this project
 
 ###Google Analytics API
@@ -25,7 +28,6 @@ The tutorials above don’t explain how to work with with multiple metrics and d
     'yesterday',
     'today',
     'ga:sessions, ga:organicSearches, ga:transactions, ga:transactionRevenue,',
-
     array(
       'dimensions'  => 'ga:date, ga:source, ga:medium ',
       'sort'        => 'ga:date',
