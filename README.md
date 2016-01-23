@@ -3,7 +3,9 @@
 Please note! The user_data.php and client_secrets.p12 files are not included and need and need to be added for this app to run.
 
 Enter this command in your terminal to download these files:
-`$ curl http://data.sq1west.com/secret-stuff.tar.gz | tar zx`
+```
+$ curl http://data.sq1west.com/secret-stuff.tar.gz | tar zx
+```
 
 ##Instructions to recreate this project
 
@@ -23,6 +25,7 @@ https://www.amcharts.com/tutorials/use-amcharts-to-visualize-google-analytics-da
 
 The tutorials above don’t explain how to work with with multiple metrics and dimensions, so this is an example:
 
+```
 $results = $analytics->data_ga->get(
     'ga:' . $google_account[ 'profile' ],
     'yesterday',
@@ -33,6 +36,7 @@ $results = $analytics->data_ga->get(
       'sort'        => 'ga:date',
     )
 );
+```
 
 ####Google Query Explorer
 
@@ -62,6 +66,7 @@ After moving down few lines you will find a line $i++;
 
 After the first code block add following lines.
 
+```
 $i++;
 
 $cfg['Servers'][$i]['host'] = 'Your RDS Endpoint';
@@ -73,6 +78,7 @@ $cfg['Servers'][$i]['compress'] = TRUE;
 $cfg['Servers'][$i]['auth_type'] = 'config';
 $cfg['Servers'][$i]['user'] = 'USERNAME';
 $cfg['Servers'][$i]['password'] = ‘PASSWORD’;
+```
 
 Now you can select your AWS database from a dropdown menu in phpMyAdmin.
 
@@ -80,10 +86,12 @@ Now you can select your AWS database from a dropdown menu in phpMyAdmin.
 
 In app.php (previously amcharts.php) file under session start() add this code to connect to the AWS database:
 
+```
 $server = ‘mysql:host=your-db-instance-end-point-point-here;port=3306;db=yourdbnamehere’;
 $username = ‘your-username-here’;
 $password = ‘your-password-here’;
 $db = new PDO($server, $username, $password);
+```
 
 
 ###Legal
