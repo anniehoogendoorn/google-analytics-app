@@ -44,7 +44,6 @@ You can test and construct API queries with Google’s Query Explorer:
 https://ga-dev-tools.appspot.com/query-explorer/
 
 
-
 ###Amazon Web Services
 
 ####Connecting with MySQL
@@ -93,17 +92,6 @@ $password = ‘your-password-here’;
 $db = new PDO($server, $username, $password);
 ```
 
-
 ###Legal
 
 Copyright (c) 2016
-
-
-
-
-## Developer Documentation
-http://developers.google.com/api-client-library/php
-
-## Installation
-For the latest installation and setup instructions, see
-[the documentation](https://developers.google.com/api-client-library/php/start/installation).
