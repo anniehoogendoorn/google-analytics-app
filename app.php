@@ -33,7 +33,7 @@ try {
  */
 $google_account = array(
   'email'   => $google_email_placholder,
-  'key'     => file_get_contents( 'client_secrets.p12' ),
+  'key'     => file_get_contents( $google_key_placeholder ),
   'profile' => $google_profile_placholder
 
 );
@@ -81,20 +81,42 @@ $results = $analytics->data_ga->get(
   'ga:' . $google_account[ 'profile' ], //profile id
   'yesterday', // start date
   'today',  // end date
-  'ga:sessions', //metric
+  'ga:sessions, ga:organicSearches, ga:transactions, ga:transactionRevenue,',  //metrics
 
   array(
-    'dimensions'  => 'ga:date',
-    'sort'        => '-ga:sessions',
-    'max-results' => 20
+    'dimensions'  => 'ga:date, ga:source, ga:medium ',
+    'sort'        => 'ga:date',
+    // 'max-results' => 20
   )
 );
 $returned_data = $results->getRows();
 
+// print "<pre>";
 // print_r($returned_data);
+// print "</pre>";
+
+/**
+ * Format and output data as JSON
+ */
+$data = array();
+foreach( $returned_data as $row ) {
+  $data[] = array(
+    'date'   => $row[0],
+    'source'  => $row[1],
+    'medium' => $row[2],
+    'sessions' => $row[3],
+    'organic searches' => $row[4],
+    'transaction' => $row[5],
+    'revenue'=> $row[6]
+
+  );
+}
+
+echo json_encode( $data );
+
 
 //Get the returned analytics data and save it to the database
-Analytics::getAll($returned_data);
+// Analytics::getAll($returned_data);
 
 
 
