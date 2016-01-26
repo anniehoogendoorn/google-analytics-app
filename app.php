@@ -11,20 +11,20 @@ require_once 'src/user_data.php';
  */
 session_start();
 
-try {
-  $server = $server_placeholder;
-  $username = $username_placeholder;
-  $password = $password_placeholder;
-  //setting up connection to our database
-  $DB = new PDO($server, $username, $password);
-  //Throw an exception when an error is encountered in the query
-  $DB->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-  $DB->exec("SET NAMES 'utf8'");
-  // var_dump($DB);
-} catch (Exception $e) {
-  echo "Could not connect to the database";
-  exit;
-}
+// try {
+//   $server = $server_placeholder;
+//   $username = $username_placeholder;
+//   $password = $password_placeholder;
+//   //setting up connection to our database
+//   $DB = new PDO($server, $username, $password);
+//   //Throw an exception when an error is encountered in the query
+//   $DB->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+//   $DB->exec("SET NAMES 'utf8'");
+//   // var_dump($DB);
+// } catch (Exception $e) {
+//   echo "Could not connect to the database";
+//   exit;
+// }
 
 
 
@@ -77,42 +77,100 @@ $analytics = getService(
 /**
  * Query the Analytics data
  */
-$results = $analytics->data_ga->get(
-  'ga:' . $google_account[ 'profile' ], //profile id
-  'yesterday', // start date
-  'today',  // end date
-  'ga:sessions, ga:organicSearches, ga:transactions, ga:transactionRevenue,',  //metrics
-
-  array(
-    'dimensions'  => 'ga:date, ga:source, ga:medium ',
-    'sort'        => 'ga:date',
-    // 'max-results' => 20
-  )
-);
-$returned_data = $results->getRows();
+// $results = $analytics->data_ga->get(
+//   'ga:' . $google_account[ 'profile' ], //profile id
+//   'yesterday', // start date
+//   'today',  // end date
+//   'ga:sessions, ga:transactions, ga:transactionRevenue, ga:pageViews, ga:bounces, ga:sessionDuration, ga:hits, ga:totalEvents, ga:uniqueEvents', //metrics
+//
+//   array(
+//     'dimensions' => 'ga:date, ga:source, ga:medium, ga:channelGrouping, ga:deviceCategory, ga:landingPagePath ',
+//     'sort'        => 'ga:date',
+//     'max-results' => 20
+//   )
+// );
+// $returned_data = $results->getRows();
 
 // print "<pre>";
 // print_r($returned_data);
 // print "</pre>";
 
 /**
- * Format and output data as JSON
+* Format and output data as JSON
+*/
+// $data = array();
+// foreach( $returned_data as $row ) {
+//   $data[] = array(
+//     //dimensions
+//     'date'   => $row[0],
+//     'source'  => $row[1],
+//     'medium' => $row[2],
+//     'channelGrouping'=> $row[3],
+//     'deviceCategory' => $row[4],
+//     'landingPagePath' => $row[5],
+//     //metrics
+//     'sessions' => $row[6],
+//     'transactions' => $row[7],
+//     'transactionRevenue'=> $row[8],
+//     'pageViews' => $row[9],
+//     'bounces' =>$row[10],
+//     'sessionDuration' => $row[11],
+//     'hits' => $row[12],
+//     'totalEvents' => $row[13],
+//     'uniqueEvents' => $row[14]
+//   );
+// }
+//
+// echo json_encode( $data );
+
+/**
+ * Query the Analytics data a second time
  */
-$data = array();
-foreach( $returned_data as $row ) {
-  $data[] = array(
+$results_2 = $analytics->data_ga->get(
+  'ga:' . $google_account[ 'profile' ], //profile id
+  'yesterday', // start date
+  'today',  // end date
+  'ga:sessions, ga:users, ga:newUsers, ga:entrances, ga:exits' , //metrics
+
+  array(
+    'dimensions' => 'ga:date, ga:source, ga:medium, ga:channelGrouping, ga:deviceCategory, ga:landingPagePath ',
+    'sort'        => 'ga:date',
+    'max-results' => 20
+  )
+);
+
+$returned_data_2 = $results_2->getRows();
+
+// print "<pre>";
+// print_r($returned_data_two);
+// print "</pre>";
+
+/**
+* Format and output second data set as JSON
+*/
+$data_2 = array();
+foreach( $returned_data_2 as $row ) {
+  $data_2[] = array(
+    //dimensions
     'date'   => $row[0],
     'source'  => $row[1],
     'medium' => $row[2],
-    'sessions' => $row[3],
-    'organic searches' => $row[4],
-    'transaction' => $row[5],
-    'revenue'=> $row[6]
+    'channelGrouping'=> $row[3],
+    'deviceCategory' => $row[4],
+    'landingPagePath' => $row[5],
+    //metrics
+    'sessions' => $row[6],
+    'users' => $row[7],
+    'entrances' => $row[8],
+    'exits'=> $row[9]
 
   );
 }
 
-echo json_encode( $data );
+echo json_encode( $data_2 );
+
+
+
 
 
 //Get the returned analytics data and save it to the database
