@@ -51,6 +51,11 @@ https://ga-dev-tools.appspot.com/query-explorer/
 Follow this youtube tutorial to set up a database (RDS instance) on AWS and connect to mysql
 https://www.youtube.com/watch?v=LnAvUOmH1n0
 
+This is an example of what you would enter in your terminal to connect your AWS RDS with MySQL:
+```
+/Applications/MAMP/Library/bin/mysql -h your-end-point-here -u your-username-here -p your-password-here
+```
+
 ####Connecting with phpMyAdmin
 
 This blog post explains how to connect phpMyAdmin to you RDS:

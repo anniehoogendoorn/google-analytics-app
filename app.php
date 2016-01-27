@@ -77,19 +77,19 @@ $analytics = getService(
 /**
  * Query the Analytics data
  */
-// $results = $analytics->data_ga->get(
-//   'ga:' . $google_account[ 'profile' ], //profile id
-//   'yesterday', // start date
-//   'today',  // end date
-//   'ga:sessions, ga:transactions, ga:transactionRevenue, ga:pageViews, ga:bounces, ga:sessionDuration, ga:hits, ga:totalEvents, ga:uniqueEvents', //metrics
-//
-//   array(
-//     'dimensions' => 'ga:date, ga:source, ga:medium, ga:channelGrouping, ga:deviceCategory, ga:landingPagePath ',
-//     'sort'        => 'ga:date',
-//     'max-results' => 20
-//   )
-// );
-// $returned_data = $results->getRows();
+$results = $analytics->data_ga->get(
+  'ga:' . $google_account[ 'profile' ], //profile id
+  'yesterday', // start date
+  'today',  // end date
+  'ga:sessions, ga:transactions, ga:transactionRevenue, ga:pageViews, ga:bounces, ga:sessionDuration, ga:hits, ga:totalEvents, ga:uniqueEvents', //metrics
+
+  array(
+    'dimensions' => 'ga:date, ga:source, ga:medium, ga:channelGrouping, ga:deviceCategory, ga:landingPagePath ',
+    'sort'        => 'ga:date',
+    'max-results' => 20
+  )
+);
+$returned_data = $results->getRows();
 
 // print "<pre>";
 // print_r($returned_data);
@@ -98,30 +98,30 @@ $analytics = getService(
 /**
 * Format and output data as JSON
 */
-// $data = array();
-// foreach( $returned_data as $row ) {
-//   $data[] = array(
-//     //dimensions
-//     'date'   => $row[0],
-//     'source'  => $row[1],
-//     'medium' => $row[2],
-//     'channelGrouping'=> $row[3],
-//     'deviceCategory' => $row[4],
-//     'landingPagePath' => $row[5],
-//     //metrics
-//     'sessions' => $row[6],
-//     'transactions' => $row[7],
-//     'transactionRevenue'=> $row[8],
-//     'pageViews' => $row[9],
-//     'bounces' =>$row[10],
-//     'sessionDuration' => $row[11],
-//     'hits' => $row[12],
-//     'totalEvents' => $row[13],
-//     'uniqueEvents' => $row[14]
-//   );
-// }
-//
-// echo json_encode( $data );
+$data = array();
+foreach( $returned_data as $row ) {
+  $data[] = array(
+    //dimensions
+    'date'   => $row[0],
+    'source'  => $row[1],
+    'medium' => $row[2],
+    'channelGrouping'=> $row[3],
+    'deviceCategory' => $row[4],
+    'landingPagePath' => $row[5],
+    //metrics
+    'sessions' => $row[6],
+    'transactions' => $row[7],
+    'transactionRevenue'=> $row[8],
+    'pageViews' => $row[9],
+    'bounces' =>$row[10],
+    'sessionDuration' => $row[11],
+    'hits' => $row[12],
+    'totalEvents' => $row[13],
+    'uniqueEvents' => $row[14]
+  );
+}
+
+echo json_encode( $data );
 
 /**
  * Query the Analytics data a second time
@@ -168,7 +168,9 @@ foreach( $returned_data_2 as $row ) {
 }
 
 echo json_encode( $data_2 );
-
+print "<pre>";
+print_r($data_2);
+print "</pre>";
 
 
 
