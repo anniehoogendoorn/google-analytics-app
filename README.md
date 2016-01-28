@@ -2,7 +2,7 @@
 
 Please note! The user_data.php and client_secrets.p12 files are not included and need and need to be added for this app to run.
 
-Enter this command in your terminal to download these files:
+Enter this command in your terminal to download and uncompress these files:
 ```
 $ curl http://data.sq1west.com/secret-stuff.tar.gz | tar zx
 ```
