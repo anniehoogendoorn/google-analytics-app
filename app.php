@@ -86,7 +86,7 @@ $results = $analytics->data_ga->get(
   array(
     'dimensions' => 'ga:date, ga:source, ga:medium, ga:channelGrouping, ga:deviceCategory, ga:landingPagePath ',
     'sort'        => 'ga:date',
-    'max-results' => 5
+    'max-results' => 10
   )
 );
 $returned_data = $results->getRows();
