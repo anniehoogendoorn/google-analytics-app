@@ -8,3 +8,4 @@ tests/.accessToken
 client_secrets.p12
 sq1analytics_client_secrets.p12
 user_data.php
+aws_user.php
