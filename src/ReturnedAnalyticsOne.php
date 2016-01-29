@@ -14,9 +14,12 @@
         private $page_views;
         private $bounces;
         private $session_duration;
+        private $hits;
+        private $total_events;
+        private $unique_events;
         private $id;
 
-        function __construct($date, $source, $medium, $channel_grouping, $device_category, $landing_page_path, $sessions, $transactions, $transaction_revenue, $page_views, $bounces, $session_duration, $id = null)
+        function __construct($date, $source, $medium, $channel_grouping, $device_category, $landing_page_path, $sessions, $transactions, $transaction_revenue, $page_views, $bounces, $session_duration, $hits, $total_events, $unique_events, $id = null)
         {
             $this->date = $date;
             $this->source = $source;
@@ -30,6 +33,10 @@
             $this->page_views = $page_views;
             $this->bounces = $bounces;
             $this->session_duration = $session_duration;
+            $this->hits = $hits;
+            $this->total_events = $total_events;
+            $this->unique_events = $unique_events;
+
             $this->id = $id;
         }
 
@@ -152,6 +159,41 @@
 
 
 
+        function setHits($new_hits)
+        {
+            $this->hits = $new_hits;
+        }
+
+        function getHits()
+        {
+            return $this->hits;
+        }
+
+
+        function setTotalEvents($new_total_events)
+        {
+            $this->total_events = $new_total_events;
+        }
+
+        function getTotalEvents()
+        {
+            return $this->total_events;
+        }
+
+
+        function setUniqueEvents($new_unique_events)
+        {
+            $this->unique_events = $new_unique_events;
+        }
+
+        function getUniqueEvents()
+        {
+            return $this->unique_events;
+        }
+
+
+
+
 
         function getId()
         {
@@ -160,7 +202,7 @@
 
         function save()
         {
-            $GLOBALS['DB']->exec("INSERT INTO analytics_site1 (date, source, medium, channel_grouping, device_category, landing_page_path, sessions, transactions, transaction_revenue, page_views, bounces, session_duration) VALUES ('{$this->date}', '{$this->source}', '{$this->medium}', '{$this->channel_grouping}', '{$this->device_category}', '{$this->sessions}', '{$this->landing_page_path}', '{$this->transactions}', '{$this->transaction_revenue}','{$this->page_views}', '{$this->bounces}', '{$this->session_duration}')");
+            $GLOBALS['DB']->exec("INSERT INTO analytics_site1 (date, source, medium, channel_grouping, device_category, landing_page_path, sessions, transactions, transaction_revenue, page_views, bounces, session_duration, hits, total_events, unique_events) VALUES ('{$this->date}', '{$this->source}', '{$this->medium}', '{$this->channel_grouping}', '{$this->device_category}', '{$this->sessions}', '{$this->landing_page_path}', '{$this->transactions}', '{$this->transaction_revenue}','{$this->page_views}', '{$this->bounces}', '{$this->session_duration}', '{$this->hits}', '{$this->total_events}', '{$this->unique_events}')");
             $this->id = $GLOBALS['DB']->lastInsertId();
         }
 
@@ -181,8 +223,11 @@
                 $page_views = $row[9];
                 $bounces = $row[10];
                 $session_duration = $row[11];
+                $hits = $row[12];
+                $total_events = $row[13];
+                $unique_events = $row[14];
 
-                $analytics_object = new ReturnedAnalyticsOne($date, $source, $medium, $channel_grouping, $device_category, $landing_page_path, $sessions, $transactions, $transaction_revenue, $page_views, $bounces, $session_duration);
+                $analytics_object = new ReturnedAnalyticsOne($date, $source, $medium, $channel_grouping, $device_category, $landing_page_path, $sessions, $transactions, $transaction_revenue, $page_views, $bounces, $session_duration, $hits, $total_events, $unique_events);
                 $analytics_object->save();
 
                 array_push($data, $analytics_object);
