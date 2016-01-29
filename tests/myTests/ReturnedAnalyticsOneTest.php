@@ -32,99 +32,75 @@
             $date = "20160121";
             $source = '(direct)';
             $medium = '(none)';
-            $id = null;
-            $test_returnedOne = new ReturnedAnalyticsOne($date, $source, $medium, $id);
+			$channel_grouping = 'direct';
+	        $device_category = 'desktop';
+	        $landing_page_path = 'www.hoteldeluxe.com/';
+	        $id = null;
+            $test_returnedOne = new ReturnedAnalyticsOne($date, $source, $medium, $channel_grouping, $device_category, $landing_page_path, $id);
 
             //Act
 
-            $result = $test_returnedOne->getDate();
+            $result1 = $test_returnedOne->getDate();
+			$result2 = $test_returnedOne->getSource();
+			$result3 = $test_returnedOne->getMedium();
+			$result4 = $test_returnedOne->getChannelGrouping();
+			$result5 = $test_returnedOne->getDeviceCategory();
+			$result6 = $test_returnedOne->getLandingPagePath();
+			$result7 = $test_returnedOne->getId();
 
             //Assert
 
-            $this->assertEquals($date, $result);
+            $this->assertEquals($date, $result1);
+			$this->assertEquals($source, $result2);
+			$this->assertEquals($medium, $result3);
+			$this->assertEquals($channel_grouping, $result4);
+			$this->assertEquals($device_category, $result5);
+			$this->assertEquals($landing_page_path, $result6);
+			$this->assertEquals($id, $result7);
+		}
+
+		function test_ReturnedAnalyticsOne_set()
+		{
+
+			//Arrange
+
+            $date = "20160121";
+            $source = '(direct)';
+            $medium = '(none)';
+			$channel_grouping = 'direct';
+	        $device_category = 'desktop';
+	        $landing_page_path = 'www.hoteldeluxe.com/';
+	        $id = null;
+            $test_returnedOne = new ReturnedAnalyticsOne($date, $source, $medium, $channel_grouping, $device_category, $landing_page_path, $id);
+
+            //Act
+
+			$test_returnedOne->setDate("19771024");
+            $result1 = $test_returnedOne->getDate();
+			$test_returnedOne->setSource("(bananas)");
+			$result2 = $test_returnedOne->getSource();
+			$test_returnedOne->setMedium("(some)");
+			$result3 = $test_returnedOne->getMedium();
+			$test_returnedOne->setChannelGrouping("indirect");
+			$result4 = $test_returnedOne->getChannelGrouping();
+			$test_returnedOne->setDeviceCategory("reststop");
+			$result5 = $test_returnedOne->getDeviceCategory();
+			$test_returnedOne->setLandingPagePath("www.reddit.com/");
+			$result6 = $test_returnedOne->getLandingPagePath();
+
+            //Assert
+
+            $this->assertEquals("19771024", $result1);
+			$this->assertEquals("(bananas)", $result2);
+			$this->assertEquals("(some)", $result3);
+			$this->assertEquals("indirect", $result4);
+			$this->assertEquals("reststop", $result5);
+			$this->assertEquals("www.reddit.com/", $result6);
+
 		}
 
 
-		// function test_makeTitleCase_oneWord()
-		// {	//It capitalizes the first letter of a single word
-		// 	//Arrange
-		// 	$test_TitleCaseGenerator = new TitleCaseGenerator;
-		// 	$input = "deadbeef";
-		// 	//Act
-		// 	$result = $test_TitleCaseGenerator->makeTitleCase($input);
-		// 	//Assert
-		// 	$this->assertEquals("Deadbeef", $result);
-		// }
-		// function test_makeTitleCase_multpleWords()
-		// {   //It capitalizes a each the first letter in each word in a string
-		// 	//Arrange
-		// 	$test_TitleCaseGenerator = new TitleCaseGenerator;
-		// 	$input = "homer simpson";
-		// 	//Act
-		// 	$result = $test_TitleCaseGenerator->makeTitleCase($input);
-		// 	//Assert
-		// 	$this->assertEquals("Homer Simpson", $result);
-		// }
-		// function test_makeTitleCase_desigWords()
-		// {	//It does not capitalize ariticles, conjuntions, and prepositions
-		// 	//Arrange
-		// 	$test_TitleCaseGenerator = new TitleCaseGenerator;
-		// 	$input = "beowulf from brighton beach";
-		// 	//Act
-		// 	$result = $test_TitleCaseGenerator->makeTitleCase($input);
-		// 	//Assert
-		// 	$this->assertEquals("Beowulf from Brighton Beach", $result);
-		// }
-		// function test_makeTitleCase_firstDesigWords()
-		// {	//It capitalizes ariticles, conjuntions, and prepositions only if they are the first word in a string.
-		// 	//Arrange
-		// 	$test_TitleCaseGenerator = new TitleCaseGenerator;
-		// 	$input = "from beowulf to the hulk";
-		// 	//Act
-		// 	$result = $test_TitleCaseGenerator->makeTitleCase($input);
-		// 	//Assert
-		// 	$this->assertEquals("From Beowulf to the Hulk", $result);
-		// }
-		// function test_makeTitleCase_nonLetter()
-		// {//It handles non-letter characters
-		// 	//Arrange
-		// 	$test_TitleCaseGenerator = new TitleCaseGenerator;
-		// 	$input = "57 beowulf endings!!";
-		// 	//Act
-		// 	$result = $test_TitleCaseGenerator->makeTitleCase($input);
-		// 	//Assert
-		// 	$this->assertEquals("57 Beowulf Endings!!", $result);
-		// }
-		// function test_makeTitleCase_allCap()
-		// {//It handles "ALL CAPS" strings and returns title case formate
-		// 	//Arrange
-		// 	$test_TitleCaseGenerator = new TitleCaseGenerator;
-		// 	$input = "BEOWULF ON THE ROCKS";
-		// 	//Act
-		// 	$result = $test_TitleCaseGenerator->makeTitleCase($input);
-		// 	//Assert
-		// 	$this->assertEquals("Beowulf on the Rocks", $result);
-		// }
-		// function test_makeTitleCase_mixedCap()
-		// {//It handles "MiXeD cApS" strings and returns title case format
-		// 	//Arrange
-		// 	$test_TitleCaseGenerator = new TitleCaseGenerator;
-		// 	$input = "BeoWulf aNd mE";
-		// 	//Act
-		// 	$result = $test_TitleCaseGenerator->makeTitleCase($input);
-		// 	//Assert
-		// 	$this->assertEquals("Beowulf and Me", $result);
-		// }
-		// function test_makeTitleCase_uniqueStrings()
-		// {//It handles unique strings like "O'Malley" or "McCool"
-		// 	//Arrange
-		// 	$test_TitleCaseGenerator = new TitleCaseGenerator;
-		// 	$input = "here's to beowulf and McDuff and O'Malley";
-		// 	//Act
-		// 	$result = $test_TitleCaseGenerator->makeTitleCase($input);
-		// 	//Assert
-		// 	$this->assertEquals("Here's to Beowulf and McDuff and O'Malley", $result);
-		// }
-	}
+
+	}	
 
 ?>
