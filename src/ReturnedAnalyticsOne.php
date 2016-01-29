@@ -8,9 +8,15 @@
         private $channel_grouping;
         private $device_category;
         private $landing_page_path;
+        private $sessions;
+        private $transactions;
+        private $transaction_revenue;
+        private $page_views;
+        private $bounces;
+        private $session_duration;
         private $id;
 
-        function __construct($date, $source, $medium, $channel_grouping, $device_category, $landing_page_path, $id = null)
+        function __construct($date, $source, $medium, $channel_grouping, $device_category, $landing_page_path, $sessions, $transactions, $transaction_revenue, $page_views, $bounces, $session_duration, $id = null)
         {
             $this->date = $date;
             $this->source = $source;
@@ -18,6 +24,12 @@
             $this->channel_grouping = $channel_grouping;
             $this->device_category = $device_category;
             $this->landing_page_path = $landing_page_path;
+            $this->sessions = $sessions;
+            $this->transactions = $transactions;
+            $this->transaction_revenue = $transaction_revenue;
+            $this->page_views = $page_views;
+            $this->bounces = $bounces;
+            $this->session_duration = $session_duration;
             $this->id = $id;
         }
 
@@ -85,17 +97,61 @@
             return $this->landing_page_path;
         }
 
+        function setSessions($new_sessions)
+        {
+            $this->sessions = $new_sessions;
+        }
+
+        function getSessions()
+        {
+            return $this->sessions;
+        }
+
+        function setTransactions($new_transactions)
+        {
+            $this->transactions = $new_transactions;
+        }
+
+        function getTransactions()
+        {
+            return $this->transactions;
+        }
+
+        function setPageViews($new_page_views)
+        {
+            $this->page_views = $new_page_views;
+        }
+
+        function getPageViews()
+        {
+            return $this->page_views;
+        }
 
 
-        // function setSessions($new_sessions)
-        // {
-        //     $this->sessions = $new_sessions;
-        // }
-        //
-        // function getSessions()
-        // {
-        //     return $this->sessions;
-        // }
+        function setBounces($new_bounces)
+        {
+            $this->bounces = $new_bounces;
+        }
+
+        function getBounces()
+        {
+            return $this->bounces;
+        }
+
+
+
+        function setSessionDuration($new_session_duration)
+        {
+            $this->session_duration = $new_session_duration;
+        }
+
+        function getSessionDuration()
+        {
+            return $this->session_duration;
+        }
+
+
+
 
         function getId()
         {
@@ -104,7 +160,7 @@
 
         function save()
         {
-            $GLOBALS['DB']->exec("INSERT INTO analytics_site1 (date, source, medium, channel_grouping, device_category, landing_page_path) VALUES ('{$this->date}', '{$this->source}', '{$this->medium}', '{$this->channel_grouping}', '{$this->device_category}', '{$this->landing_page_path}')");
+            $GLOBALS['DB']->exec("INSERT INTO analytics_site1 (date, source, medium, channel_grouping, device_category, landing_page_path, sessions, transactions, transaction_revenue, page_views, bounces, session_duration) VALUES ('{$this->date}', '{$this->source}', '{$this->medium}', '{$this->channel_grouping}', '{$this->device_category}', '{$this->sessions}', '{$this->landing_page_path}', '{$this->transactions}', '{$this->transaction_revenue}','{$this->page_views}', '{$this->bounces}', '{$this->session_duration}')");
             $this->id = $GLOBALS['DB']->lastInsertId();
         }
 
@@ -119,8 +175,14 @@
                 $channel_grouping = $row[3];
                 $device_category = $row[4];
                 $landing_page_path = $row[5];
+                $sessions = $row[6];
+                $transactions = $row[7];
+                $transaction_revenue = $row[8];
+                $page_views = $row[9];
+                $bounces = $row[10];
+                $session_duration = $row[11];
 
-                $analytics_object = new ReturnedAnalyticsOne($date, $source, $medium, $channel_grouping, $device_category, $landing_page_path);
+                $analytics_object = new ReturnedAnalyticsOne($date, $source, $medium, $channel_grouping, $device_category, $landing_page_path, $sessions, $transactions, $transaction_revenue, $page_views, $bounces, $session_duration);
                 $analytics_object->save();
 
                 array_push($data, $analytics_object);
