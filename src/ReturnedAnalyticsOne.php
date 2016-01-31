@@ -44,7 +44,6 @@
         {
             $this->date = $new_date;
         }
-
         function getDate()
         {
             return $this->date;
@@ -55,10 +54,9 @@
             $this->source = $new_source;
 
         }
-
         function getSource()
         {
-          return $this->source;
+            return $this->source;
         }
 
         function setMedium($new_medium)
@@ -66,7 +64,6 @@
             $this->medium = $new_medium;
 
         }
-
         function getMedium()
         {
           return $this->medium;
@@ -77,7 +74,6 @@
             $this->channel_grouping = $new_channel_grouping;
 
         }
-
         function getChannelGrouping()
         {
           return $this->channel_grouping;
@@ -88,7 +84,6 @@
             $this->device_category = $new_device_category;
 
         }
-
         function getDeviceCategory()
         {
           return $this->device_category;
@@ -118,11 +113,21 @@
         {
             $this->transactions = $new_transactions;
         }
-
         function getTransactions()
         {
             return $this->transactions;
         }
+
+        function setTransactionRevenue($new_transaction_revenue)
+        {
+            $this->transaction_revenue = $new_transaction_revenue;
+        }
+        function getTransactionRevenue()
+        {
+            return $this->transaction_revenue;
+        }
+
+
 
         function setPageViews($new_page_views)
         {
