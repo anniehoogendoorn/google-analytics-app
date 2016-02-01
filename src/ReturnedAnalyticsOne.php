@@ -17,11 +17,9 @@
         private $hits;
         private $total_events;
         private $unique_events;
-
         private $users;
         private $entrances;
         private $exits;
-
         private $id;
 
     // constructor
@@ -263,7 +261,7 @@
 
         function saveAll()
         {
-            $GLOBALS['DB']->exec("INSERT INTO analytics_site1 (date, source, medium, channel_grouping, device_category, landing_page_path, sessions, transactions, transaction_revenue, page_views, bounces, session_duration, hits, total_events, unique_events, users, entrances, ex) VALUES ('{$this->date}', '{$this->source}', '{$this->medium}', '{$this->channel_grouping}', '{$this->device_category}', '{$this->sessions}', '{$this->landing_page_path}', '{$this->transactions}', '{$this->transaction_revenue}','{$this->page_views}', '{$this->bounces}', '{$this->session_duration}', '{$this->hits}', '{$this->total_events}', '{$this->unique_events}')");
+            $GLOBALS['DB']->exec("INSERT INTO analytics_site1 (date, source, medium, channel_grouping, device_category, landing_page_path, sessions, transactions, transaction_revenue, page_views, bounces, session_duration, hits, total_events, unique_events, users, entrances, exits) VALUES ('{$this->date}', '{$this->source}', '{$this->medium}', '{$this->channel_grouping}', '{$this->device_category}', '{$this->sessions}', '{$this->landing_page_path}', '{$this->transactions}', '{$this->transaction_revenue}','{$this->page_views}', '{$this->bounces}', '{$this->session_duration}', '{$this->hits}', '{$this->total_events}', '{$this->unique_events}', '{$this->users}', '{$this->entrances}', '{$this->exits}')");
             $this->id = $GLOBALS['DB']->lastInsertId();
         }
 
@@ -293,8 +291,11 @@
                 $hits = $row[12];
                 $total_events = $row[13];
                 $unique_events = $row[14];
+                $users = $row[15];
+                $entrances = $row[16];
+                $exits = $row[17];
 
-                $analytics_object = new ReturnedAnalyticsOne($date, $source, $medium, $channel_grouping, $device_category, $landing_page_path, $sessions, $transactions, $transaction_revenue, $page_views, $bounces, $session_duration, $hits, $total_events, $unique_events);
+                $analytics_object = new ReturnedAnalyticsOne($date, $source, $medium, $channel_grouping, $device_category, $landing_page_path, $sessions, $transactions, $transaction_revenue, $page_views, $bounces, $session_duration, $hits, $total_events, $unique_events, $users, $entrances, $exits);
                 $analytics_object->save();
 
                 array_push($data, $analytics_object);
