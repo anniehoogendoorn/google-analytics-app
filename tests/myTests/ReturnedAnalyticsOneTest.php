@@ -86,45 +86,82 @@
 			$this->assertEquals($id, $result16);
 		}
 
-		// function test_ReturnedAnalyticsOne_set()
-		// {
-		//
-		// 	//Arrange
-		//
-        //     $date = "20160121";
-        //     $source = '(direct)';
-        //     $medium = '(none)';
-		// 	$channel_grouping = 'direct';
-	    //     $device_category = 'desktop';
-	    //     $landing_page_path = 'www.hoteldeluxe.com/';
-	    //     $id = null;
-        //     $test_returnedOne = new ReturnedAnalyticsOne($date, $source, $medium, $channel_grouping, $device_category, $landing_page_path, $sessions, $transactions, $transaction_revenue, $page_views, $bounces, $session_duration, $hits, $total_events, $unique_events, $id);
-		//
-        //     //Act
-		//
-		// 	$test_returnedOne->setDate("19771024");
-        //     $result1 = $test_returnedOne->getDate();
-		// 	$test_returnedOne->setSource("(bananas)");
-		// 	$result2 = $test_returnedOne->getSource();
-		// 	$test_returnedOne->setMedium("(some)");
-		// 	$result3 = $test_returnedOne->getMedium();
-		// 	$test_returnedOne->setChannelGrouping("indirect");
-		// 	$result4 = $test_returnedOne->getChannelGrouping();
-		// 	$test_returnedOne->setDeviceCategory("reststop");
-		// 	$result5 = $test_returnedOne->getDeviceCategory();
-		// 	$test_returnedOne->setLandingPagePath("www.reddit.com/");
-		// 	$result6 = $test_returnedOne->getLandingPagePath();
-		//
-        //     //Assert
-		//
-        //     $this->assertEquals("19771024", $result1);
-		// 	$this->assertEquals("(bananas)", $result2);
-		// 	$this->assertEquals("(some)", $result3);
-		// 	$this->assertEquals("indirect", $result4);
-		// 	$this->assertEquals("reststop", $result5);
-		// 	$this->assertEquals("www.reddit.com/", $result6);
-		//
-		// }
+		function test_ReturnedAnalyticsOne_set()
+		{
+
+			//Arrange
+
+            $date = "20160121";
+            $source = '(direct)';
+            $medium = '(none)';
+			$channel_grouping = 'direct';
+	        $device_category = 'desktop';
+	        $landing_page_path = 'www.hoteldeluxe.com/';
+			$sessions = '';
+			$transactions = '';
+	        $transaction_revenue = '';
+	        $page_views = '';
+	        $bounces = '';
+	        $session_duration = '';
+	        $hits = '';
+	        $total_events = '';
+	        $unique_events = '';
+			$id = null;
+            $test_returnedOne = new ReturnedAnalyticsOne($date, $source, $medium, $channel_grouping, $device_category, $landing_page_path, $sessions, $transactions, $transaction_revenue, $page_views, $bounces, $session_duration, $hits, $total_events, $unique_events, $id);
+
+            //Act
+
+			$test_returnedOne->setDate("19771024");
+            $result1 = $test_returnedOne->getDate();
+			$test_returnedOne->setSource("(bananas)");
+			$result2 = $test_returnedOne->getSource();
+			$test_returnedOne->setMedium("(some)");
+			$result3 = $test_returnedOne->getMedium();
+			$test_returnedOne->setChannelGrouping("indirect");
+			$result4 = $test_returnedOne->getChannelGrouping();
+			$test_returnedOne->setDeviceCategory("reststop");
+			$result5 = $test_returnedOne->getDeviceCategory();
+			$test_returnedOne->setLandingPagePath("www.reddit.com/");
+			$result6 = $test_returnedOne->getLandingPagePath();
+			$test_returnedOne->setSessions("FOO");
+			$result7 = $test_returnedOne->getSessions();
+			$test_returnedOne->setTransactions("BAR");
+			$result8 = $test_returnedOne->getTransactions();
+			$test_returnedOne->setTransactionRevenue("TACO");
+			$result9 = $test_returnedOne->getTransactionRevenue();
+			$test_returnedOne->setPageViews("TIME");
+			$result10 = $test_returnedOne->getPageViews();
+			$test_returnedOne->setBounces("PIZZA");
+			$result11 = $test_returnedOne->getBounces();
+			$test_returnedOne->setSessionDuration("HOTDOG");
+			$result12 = $test_returnedOne->getSessionDuration();
+			$test_returnedOne->setHits("9001");
+			$result13 = $test_returnedOne->getHits();
+			$test_returnedOne->setTotalEvents("1337");
+			$result14 = $test_returnedOne->getTotalEvents();
+			$test_returnedOne->setUniqueEvents("2001");
+			$result15 = $test_returnedOne->getUniqueEvents();
+
+            //Assert
+
+            $this->assertEquals("19771024", $result1);
+			$this->assertEquals("(bananas)", $result2);
+			$this->assertEquals("(some)", $result3);
+			$this->assertEquals("indirect", $result4);
+			$this->assertEquals("reststop", $result5);
+			$this->assertEquals("www.reddit.com/", $result6);
+			$this->assertEquals("FOO", $result7);
+			$this->assertEquals("BAR", $result8);
+	        $this->assertEquals("TACO", $result9);
+	        $this->assertEquals("TIME", $result10);
+	        $this->assertEquals("PIZZA", $result11);
+	        $this->assertEquals("HOTDOG", $result12);
+	        $this->assertEquals("9001", $result13);
+	        $this->assertEquals("1337", $result14);
+	        $this->assertEquals("2001", $result15);
+
+
+		}
 
 
 
