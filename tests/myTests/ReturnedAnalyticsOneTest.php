@@ -8,19 +8,19 @@
 	require_once "src/ReturnedAnalyticsOne.php";
     require_once "aws_user.php";
 
-	// try {
-	// 	$server = $server_placeholder;
-	// 	$username = $username_placeholder;
-	// 	$password = $password_placeholder;
-	// 	//setting up connection to our database
-	// 	$db = new PDO($server, $username, $password);
-	// 	//Throw an exception when an error is encountered in the query
-	// 	$db->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-	// 	$db->exec("SET NAMES 'utf8'");
-	// } catch (Exception $e) {
-	//   	echo "Could not connect to the database";
-	//   exit;
-	// }
+	try {
+		$server = $server_placeholder;
+		$username = $username_placeholder;
+		$password = $password_placeholder;
+		//setting up connection to our database
+		$db = new PDO($server, $username, $password);
+		//Throw an exception when an error is encountered in the query
+		$db->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+		$db->exec("SET NAMES 'utf8'");
+	} catch (Exception $e) {
+	  	echo "Could not connect to the database";
+	  exit;
+	}
 
     class ReturnedAnalyticsOneTest extends PHPUnit_Framework_TestCase
 	{
@@ -44,8 +44,11 @@
 	        $hits = '';
 	        $total_events = '';
 	        $unique_events = '';
+			$users = '';
+			$entrances = '';
+			$exits = '';
 			$id = null;
-            $test_returnedOne = new ReturnedAnalyticsOne($date, $source, $medium, $channel_grouping, $device_category, $landing_page_path, $sessions, $transactions, $transaction_revenue, $page_views, $bounces, $session_duration, $hits, $total_events, $unique_events, $id);
+            $test_returnedOne = new ReturnedAnalyticsOne($date, $source, $medium, $channel_grouping, $device_category, $landing_page_path, $sessions, $transactions, $transaction_revenue, $page_views, $bounces, $session_duration, $hits, $total_events, $unique_events, $users, $entrances, $exits, $id);
 
             //Act
 
@@ -64,7 +67,10 @@
 			$result13 = $test_returnedOne->getHits();
 			$result14 = $test_returnedOne->getTotalEvents();
 			$result15 = $test_returnedOne->getUniqueEvents();
-			$result16 = $test_returnedOne->getId();
+			$result16 = $test_returnedOne->getUsers();
+			$result17 = $test_returnedOne->getEntrances();
+			$result18 = $test_returnedOne->getExits();
+			$result19 = $test_returnedOne->getId();
 
             //Assert
 
@@ -83,7 +89,10 @@
 	        $this->assertEquals($hits, $result13);
 	        $this->assertEquals($total_events, $result14);
 	        $this->assertEquals($unique_events, $result15);
-			$this->assertEquals($id, $result16);
+			$this->assertEquals($users, $result16);
+			$this->assertEquals($entrances, $result17);
+			$this->assertEquals($exits, $result18);
+			$this->assertEquals($id, $result19);
 		}
 
 		function test_ReturnedAnalyticsOne_set()
@@ -91,7 +100,7 @@
 
 			//Arrange
 
-            $date = "20160121";
+			$date = '20160121';
             $source = '(direct)';
             $medium = '(none)';
 			$channel_grouping = 'direct';
@@ -106,8 +115,11 @@
 	        $hits = '';
 	        $total_events = '';
 	        $unique_events = '';
+			$users = '';
+			$entrances = '';
+			$exits = '';
 			$id = null;
-            $test_returnedOne = new ReturnedAnalyticsOne($date, $source, $medium, $channel_grouping, $device_category, $landing_page_path, $sessions, $transactions, $transaction_revenue, $page_views, $bounces, $session_duration, $hits, $total_events, $unique_events, $id);
+            $test_returnedOne = new ReturnedAnalyticsOne($date, $source, $medium, $channel_grouping, $device_category, $landing_page_path, $sessions, $transactions, $transaction_revenue, $page_views, $bounces, $session_duration, $hits, $total_events, $unique_events, $users, $entrances, $exits, $id);
 
             //Act
 
@@ -141,6 +153,13 @@
 			$result14 = $test_returnedOne->getTotalEvents();
 			$test_returnedOne->setUniqueEvents("2001");
 			$result15 = $test_returnedOne->getUniqueEvents();
+			$test_returnedOne->setUsers("BIFF");
+			$result16 = $test_returnedOne->getUsers();
+			$test_returnedOne->setEntrances("1985");
+			$result17 = $test_returnedOne->getEntrances();
+			$test_returnedOne->setExits("1955");
+			$result18 = $test_returnedOne->getExits();
+
 
             //Assert
 
@@ -159,7 +178,9 @@
 	        $this->assertEquals("9001", $result13);
 	        $this->assertEquals("1337", $result14);
 	        $this->assertEquals("2001", $result15);
-
+			$this->assertEquals("BIFF", $result16);
+			$this->assertEquals("1985", $result17);
+			$this->assertEquals("1955", $result18);
 
 		}
 

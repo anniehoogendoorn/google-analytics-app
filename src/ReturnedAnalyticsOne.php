@@ -17,11 +17,16 @@
         private $hits;
         private $total_events;
         private $unique_events;
+
+        private $users;
+        private $entrances;
+        private $exits;
+
         private $id;
 
     // constructor
 
-        function __construct($date, $source, $medium, $channel_grouping, $device_category, $landing_page_path, $sessions, $transactions, $transaction_revenue, $page_views, $bounces, $session_duration, $hits, $total_events, $unique_events, $id = null)
+        function __construct($date, $source, $medium, $channel_grouping, $device_category, $landing_page_path, $sessions, $transactions, $transaction_revenue, $page_views, $bounces, $session_duration, $hits, $total_events, $unique_events, $users, $entrances, $exits, $id = null)
         {
             $this->date = $date;
             $this->source = $source;
@@ -38,6 +43,9 @@
             $this->hits = $hits;
             $this->total_events = $total_events;
             $this->unique_events = $unique_events;
+            $this->users = $users;
+            $this->entrances = $entrances;
+            $this->exits = $exits;
 
             $this->id = $id;
         }
@@ -192,7 +200,6 @@
         {
             $this->total_events = $new_total_events;
         }
-
         function getTotalEvents()
         {
             return $this->total_events;
@@ -204,10 +211,42 @@
         {
             $this->unique_events = $new_unique_events;
         }
-
         function getUniqueEvents()
         {
             return $this->unique_events;
+        }
+
+    // get/set users
+
+        function setUsers($new_users)
+        {
+            $this->users = $new_users;
+        }
+        function getUsers()
+        {
+            return $this->users;
+        }
+
+    // get/set entrances
+
+        function setEntrances($new_entrances)
+        {
+            $this->entrances = $new_entrances;
+        }
+        function getEntrances()
+        {
+            return $this->entrances;
+        }
+
+    // get/set exits
+
+        function setExits($new_exits)
+        {
+            $this->exits = $new_exits;
+        }
+        function getExits()
+        {
+            return $this->exits;
         }
 
     // get id
@@ -218,23 +257,23 @@
         }
 
     /**
-    * save method
+    * saveAll method
     * inserts data from google analytics api into mysql data warehouse.
     */
 
-        function save()
+        function saveAll()
         {
-            $GLOBALS['DB']->exec("INSERT INTO analytics_site1 (date, source, medium, channel_grouping, device_category, landing_page_path, sessions, transactions, transaction_revenue, page_views, bounces, session_duration, hits, total_events, unique_events) VALUES ('{$this->date}', '{$this->source}', '{$this->medium}', '{$this->channel_grouping}', '{$this->device_category}', '{$this->sessions}', '{$this->landing_page_path}', '{$this->transactions}', '{$this->transaction_revenue}','{$this->page_views}', '{$this->bounces}', '{$this->session_duration}', '{$this->hits}', '{$this->total_events}', '{$this->unique_events}')");
+            $GLOBALS['DB']->exec("INSERT INTO analytics_site1 (date, source, medium, channel_grouping, device_category, landing_page_path, sessions, transactions, transaction_revenue, page_views, bounces, session_duration, hits, total_events, unique_events, users, entrances, ex) VALUES ('{$this->date}', '{$this->source}', '{$this->medium}', '{$this->channel_grouping}', '{$this->device_category}', '{$this->sessions}', '{$this->landing_page_path}', '{$this->transactions}', '{$this->transaction_revenue}','{$this->page_views}', '{$this->bounces}', '{$this->session_duration}', '{$this->hits}', '{$this->total_events}', '{$this->unique_events}')");
             $this->id = $GLOBALS['DB']->lastInsertId();
         }
 
     /**
-    * getAll method
-    * accepts the api data and intances the object to prepare the data to be saved. 
+    * transform method
+    * accepts the api data and intances the object to prepare the data to be saved.
     */
 
 
-        static function getAll($returned_data)
+        static function transform($returned_data)
         {
             try {
                 $data = array();
