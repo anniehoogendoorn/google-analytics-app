@@ -19,6 +19,8 @@
         private $unique_events;
         private $id;
 
+    // constructor
+
         function __construct($date, $source, $medium, $channel_grouping, $device_category, $landing_page_path, $sessions, $transactions, $transaction_revenue, $page_views, $bounces, $session_duration, $hits, $total_events, $unique_events, $id = null)
         {
             $this->date = $date;
@@ -40,6 +42,8 @@
             $this->id = $id;
         }
 
+    // get/set date
+
         function setDate($new_date)
         {
             $this->date = $new_date;
@@ -49,25 +53,29 @@
             return $this->date;
         }
 
+    // get/set source
+
         function setSource($new_source)
         {
             $this->source = $new_source;
-
         }
         function getSource()
         {
             return $this->source;
         }
 
+    // get/set medium
+
         function setMedium($new_medium)
         {
             $this->medium = $new_medium;
-
         }
         function getMedium()
         {
           return $this->medium;
         }
+
+    // get/set channel_grouping
 
         function setChannelGrouping($new_channel_grouping)
         {
@@ -79,35 +87,40 @@
           return $this->channel_grouping;
         }
 
+    // get/set device_category
+
         function setDeviceCategory($new_device_category)
         {
             $this->device_category = $new_device_category;
-
         }
         function getDeviceCategory()
         {
           return $this->device_category;
         }
 
+    // get/set landing_page_path
+
         function setLandingPagePath($new_landing_page_path)
         {
             $this->landing_page_path = $new_landing_page_path;
         }
-
         function getLandingPagePath()
         {
             return $this->landing_page_path;
         }
 
+    // get/set sessions
+
         function setSessions($new_sessions)
         {
             $this->sessions = $new_sessions;
         }
-
         function getSessions()
         {
             return $this->sessions;
         }
+
+    // get/set transactions
 
         function setTransactions($new_transactions)
         {
@@ -118,6 +131,8 @@
             return $this->transactions;
         }
 
+    // get/set transaction_revenue
+
         function setTransactionRevenue($new_transaction_revenue)
         {
             $this->transaction_revenue = $new_transaction_revenue;
@@ -127,53 +142,51 @@
             return $this->transaction_revenue;
         }
 
-
+    // get/set page_views
 
         function setPageViews($new_page_views)
         {
             $this->page_views = $new_page_views;
         }
-
         function getPageViews()
         {
             return $this->page_views;
         }
 
+    // get/set bounces
 
         function setBounces($new_bounces)
         {
             $this->bounces = $new_bounces;
         }
-
         function getBounces()
         {
             return $this->bounces;
         }
 
-
+    // get/set session_duration
 
         function setSessionDuration($new_session_duration)
         {
             $this->session_duration = $new_session_duration;
         }
-
         function getSessionDuration()
         {
             return $this->session_duration;
         }
 
-
+    // get/set hits
 
         function setHits($new_hits)
         {
             $this->hits = $new_hits;
         }
-
         function getHits()
         {
             return $this->hits;
         }
 
+    // get/set total_events
 
         function setTotalEvents($new_total_events)
         {
@@ -185,6 +198,7 @@
             return $this->total_events;
         }
 
+    // get/set unique_events
 
         function setUniqueEvents($new_unique_events)
         {
@@ -196,20 +210,29 @@
             return $this->unique_events;
         }
 
-
-
-
+    // get id
 
         function getId()
         {
             return $this->id;
         }
 
+    /**
+    * save method
+    * inserts data from google analytics api into mysql data warehouse.
+    */
+
         function save()
         {
             $GLOBALS['DB']->exec("INSERT INTO analytics_site1 (date, source, medium, channel_grouping, device_category, landing_page_path, sessions, transactions, transaction_revenue, page_views, bounces, session_duration, hits, total_events, unique_events) VALUES ('{$this->date}', '{$this->source}', '{$this->medium}', '{$this->channel_grouping}', '{$this->device_category}', '{$this->sessions}', '{$this->landing_page_path}', '{$this->transactions}', '{$this->transaction_revenue}','{$this->page_views}', '{$this->bounces}', '{$this->session_duration}', '{$this->hits}', '{$this->total_events}', '{$this->unique_events}')");
             $this->id = $GLOBALS['DB']->lastInsertId();
         }
+
+    /**
+    * getAll method
+    * accepts the api data and intances the object to prepare the data to be saved. 
+    */
+
 
         static function getAll($returned_data)
         {
