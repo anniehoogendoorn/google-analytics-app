@@ -10,21 +10,21 @@ require_once 'src/user_data.php';
  * Start session to store auth data
  */
 session_start();
-
-try {
-  $server = $server_placeholder;
-  $username = $username_placeholder;
-  $password = $password_placeholder;
-  //setting up connection to our database
-  $DB = new PDO($server, $username, $password);
-  //Throw an exception when an error is encountered in the query
-  $DB->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-  $DB->exec("SET NAMES 'utf8'");
-  // var_dump($DB);
-} catch (Exception $e) {
-  echo "Could not connect to the database";
-  exit;
-}
+//
+// try {
+//   $server = $server_placeholder;
+//   $username = $username_placeholder;
+//   $password = $password_placeholder;
+//   //setting up connection to our database
+//   $DB = new PDO($server, $username, $password);
+//   //Throw an exception when an error is encountered in the query
+//   $DB->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+//   $DB->exec("SET NAMES 'utf8'");
+//   // var_dump($DB);
+// } catch (Exception $e) {
+//   echo "Could not connect to the database";
+//   exit;
+// }
 
 
 
@@ -145,7 +145,7 @@ $results_2 = $analytics->data_ga->get(
   array(
     'dimensions' => 'ga:date, ga:source, ga:medium, ga:channelGrouping, ga:deviceCategory, ga:landingPagePath ',
     'sort'        => 'ga:date',
-    'max-results' => 2
+    'max-results' => 3
   )
 );
 
@@ -156,8 +156,9 @@ $returned_data_2 = $results_2->getRows();
 $all_things = array();
 $thing = sizeof($returned_data);
 print_r($thing);
-for($i = 0; $i <= $thing; $i++ ) {
-    $merged = array_merge($returned_data[$i],$returned_data_2[$i]);
+for($i = 0; $i < $thing; $i++ ) {
+    $sliced = array_slice($returned_data_2[$i], 7, 3);
+    $merged = array_merge($returned_data[$i],$sliced);
     array_push($all_things, $merged);
 }
 
