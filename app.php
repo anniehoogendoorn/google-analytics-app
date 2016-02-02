@@ -1,7 +1,8 @@
 <?php
 /**
- * Load Google API library
+ * Load Google API library, Our ETL Classes, and authorization credentials
  */
+
 require_once 'vendor/autoload.php';
 require_once 'src/ReturnedAnalyticsOne.php';
 require_once 'src/user_data.php';
@@ -9,7 +10,12 @@ require_once 'src/user_data.php';
 /**
  * Start session to store auth data
  */
+
 session_start();
+
+/**
+ * Connect to database
+ */
 
 try {
   $server = $server_placeholder;
@@ -26,21 +32,20 @@ try {
   exit;
 }
 
-
-
 /**
  * Set Google service account details
  */
+
 $google_account = array(
   'email'   => $google_email_placholder,
   'key'     => file_get_contents( $google_key_placeholder ),
   'profile' => $google_profile_placholder
-
 );
 
 /**
  * Get Analytics API object
  */
+
 function getService( $service_account_email, $key ) {
   // Creates and returns the Analytics service object.
 
@@ -69,13 +74,16 @@ function getService( $service_account_email, $key ) {
 /**
  * Get Analytics API instance
  */
+
 $analytics = getService(
   $google_account[ 'email' ],
   $google_account[ 'key' ]
 );
 
 /**
- * Query the Analytics data
+ * Query the Analytics data part one.
+ * date, source, medium,channel_grouping, device_category, landing_page_path, sessions,
+ * transactions, transaction_revenue, page_views, bounces, session_duration, hits, total_events, unique_events
  */
 
 $results = $analytics->data_ga->get(
@@ -91,15 +99,72 @@ $results = $analytics->data_ga->get(
   )
 );
 
-// print_r($results);
-
 $returned_data = $results->getRows();
 
-//print_r($returned_data);
+/**
+ * Query the Analytics data part two.
+ * users, entrances, exits
+ */
 
-// print "<pre>";
-// print_r($returned_data);
-// print "</pre>";
+$results_2 = $analytics->data_ga->get(
+  'ga:' . $google_account[ 'profile' ], //profile id
+  'yesterday', // start date
+  'today',  // end date
+  'ga:sessions, ga:users, ga:newUsers, ga:entrances, ga:exits' , //metrics
+
+  array(
+    'dimensions' => 'ga:date, ga:source, ga:medium, ga:channelGrouping, ga:deviceCategory, ga:landingPagePath ',
+    'sort'        => 'ga:date',
+    'max-results' => 3
+  )
+);
+
+$returned_data_2 = $results_2->getRows();
+
+/**
+ * Join part one and two of the returned Analytics data.
+ */
+
+$packaged_data = array();
+$returned_data_length = sizeof($returned_data);
+
+for($i = 0; $i < $returned_data_length; $i++ ) {
+    $sliced = array_slice($returned_data_2[$i], 7, 3);
+    $merged = array_merge($returned_data[$i],$sliced);
+    array_push($packaged_data, $merged);
+}
+
+// print_r($all_things);
+
+/**
+ * Instance ReturnedAnalyticsOne Object via tranform method.
+ */
+
+ReturnedAnalyticsOne::transform( $packaged_data );
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// ========================================================================/
+//  The
+//     Bone
+//          yard
+// ========================================================================/
+
 
 /**
 * Format and output data as JSON
@@ -131,40 +196,7 @@ $returned_data = $results->getRows();
 // echo json_encode( $data );
 //Get the returned analytics data and save it to the database
 
-
-/**
- * Query the Analytics data a second time
- */
-
-$results_2 = $analytics->data_ga->get(
-  'ga:' . $google_account[ 'profile' ], //profile id
-  'yesterday', // start date
-  'today',  // end date
-  'ga:sessions, ga:users, ga:newUsers, ga:entrances, ga:exits' , //metrics
-
-  array(
-    'dimensions' => 'ga:date, ga:source, ga:medium, ga:channelGrouping, ga:deviceCategory, ga:landingPagePath ',
-    'sort'        => 'ga:date',
-    'max-results' => 3
-  )
-);
-
-$returned_data_2 = $results_2->getRows();
-
 //print_r($returned_data_2);
-
-$all_things = array();
-$thing = sizeof($returned_data);
-print_r($thing);
-for($i = 0; $i < $thing; $i++ ) {
-    $sliced = array_slice($returned_data_2[$i], 7, 3);
-    $merged = array_merge($returned_data[$i],$sliced);
-    array_push($all_things, $merged);
-}
-
-// print_r($all_things);
-ReturnedAnalyticsOne::transform($returned_data,$returned_data_2 );
-
 
 // print "<pre>";
 // print_r($returned_data_two);
@@ -196,12 +228,6 @@ ReturnedAnalyticsOne::transform($returned_data,$returned_data_2 );
 // print "<pre>";
 // print_r($data_2);
 // print "</pre>";
-
-
-
-
-
-
 
 //Treehouse example
 
