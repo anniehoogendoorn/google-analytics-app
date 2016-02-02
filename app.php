@@ -5,6 +5,7 @@
 
 require_once 'vendor/autoload.php';
 require_once 'src/ReturnedAnalyticsOne.php';
+require_once 'src/Sites.php';
 require_once 'src/user_data.php';
 
 /**
@@ -31,6 +32,10 @@ try {
   echo "Could not connect to the database";
   exit;
 }
+
+
+print_r(Sites::getAll());
+
 
 /**
  * Set Google service account details
@@ -79,6 +84,8 @@ $analytics = getService(
   $google_account[ 'email' ],
   $google_account[ 'key' ]
 );
+
+
 
 /**
  * Query the Analytics data part one.
@@ -140,7 +147,7 @@ for($i = 0; $i < $returned_data_length; $i++ ) {
  * Instance ReturnedAnalyticsOne Object via tranform method.
  */
 
-ReturnedAnalyticsOne::transform( $packaged_data );
+//ReturnedAnalyticsOne::transform( $packaged_data );
 
 
 
