@@ -271,8 +271,26 @@
     */
 
 
-        static function transform($returned_data)
+        static function transform($returned_data, $returned_data_2)
         {
+            // $result = array();
+            // foreach($returned_data as $val){ // Loop though one array
+            //
+            //     // print_r($val);
+            //     $sliced = array_slice($returned_data_2, 7, 3);
+            //     // print_r($sliced);
+            //     $val2 = $sliced; // Get the values from the other array
+            //     $result = array_push($result, $val);
+            //     $result = array_push($result, $val2); // combine 'em
+            // }
+            // print_r($result);
+
+            // $sliced = array_slice($returned_data_2[0], 7, 3);
+
+            // $merged = array_merge($returned_data[0], $sliced);
+
+            // print_r($merged);
+
             try {
                 $data = array();
                 foreach($returned_data as $row) {
@@ -296,12 +314,13 @@
                 $exits = $row[17];
 
                 $analytics_object = new ReturnedAnalyticsOne($date, $source, $medium, $channel_grouping, $device_category, $landing_page_path, $sessions, $transactions, $transaction_revenue, $page_views, $bounces, $session_duration, $hits, $total_events, $unique_events, $users, $entrances, $exits);
-                $analytics_object->save();
+
+                // $analytics_object->save();
 
                 array_push($data, $analytics_object);
                 }
                 print "<pre>";
-                print_r ($data);
+                // print_r ($data);
                 Print "</pre>";
             }   catch (Exception $e) {
                 echo "Data could not be saved to the database.";

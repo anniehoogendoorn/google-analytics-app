@@ -77,6 +77,7 @@ $analytics = getService(
 /**
  * Query the Analytics data
  */
+
 $results = $analytics->data_ga->get(
   'ga:' . $google_account[ 'profile' ], //profile id
   'yesterday', // start date
@@ -85,11 +86,16 @@ $results = $analytics->data_ga->get(
 
   array(
     'dimensions' => 'ga:date, ga:source, ga:medium, ga:channelGrouping, ga:deviceCategory, ga:landingPagePath ',
-    'sort'        => 'ga:date'
-    // 'max-results' => 10
+    'sort'        => 'ga:date',
+    'max-results' => 3
   )
 );
+
+// print_r($results);
+
 $returned_data = $results->getRows();
+
+//print_r($returned_data);
 
 // print "<pre>";
 // print_r($returned_data);
@@ -98,50 +104,66 @@ $returned_data = $results->getRows();
 /**
 * Format and output data as JSON
 */
-$data = array();
-foreach( $returned_data as $row ) {
-  $data[] = array(
-    //dimensions
-    'date'   => $row[0],
-    'source'  => $row[1],
-    'medium' => $row[2],
-    'channelGrouping'=> $row[3],
-    'deviceCategory' => $row[4],
-    'landingPagePath' => $row[5],
-    //metrics
-    'sessions' => $row[6],
-    'transactions' => $row[7],
-    'transactionRevenue'=> $row[8],
-    'pageViews' => $row[9],
-    'bounces' =>$row[10],
-    'sessionDuration' => $row[11],
-    'hits' => $row[12],
-    'totalEvents' => $row[13],
-    'uniqueEvents' => $row[14]
-  );
-}
 
-echo json_encode( $data );
+// $data = array();
+// foreach( $returned_data as $row ) {
+//   $data[] = array(
+//     //dimensions
+//     'date'   => $row[0],
+//     'source'  => $row[1],
+//     'medium' => $row[2],
+//     'channelGrouping'=> $row[3],
+//     'deviceCategory' => $row[4],
+//     'landingPagePath' => $row[5],
+//     //metrics
+//     'sessions' => $row[6],
+//     'transactions' => $row[7],
+//     'transactionRevenue'=> $row[8],
+//     'pageViews' => $row[9],
+//     'bounces' =>$row[10],
+//     'sessionDuration' => $row[11],
+//     'hits' => $row[12],
+//     'totalEvents' => $row[13],
+//     'uniqueEvents' => $row[14]
+//   );
+// }
+
+// echo json_encode( $data );
 //Get the returned analytics data and save it to the database
-ReturnedAnalyticsOne::getAll($returned_data);
+
 
 /**
  * Query the Analytics data a second time
  */
-// $results_2 = $analytics->data_ga->get(
-//   'ga:' . $google_account[ 'profile' ], //profile id
-//   'yesterday', // start date
-//   'today',  // end date
-//   'ga:sessions, ga:users, ga:newUsers, ga:entrances, ga:exits' , //metrics
-//
-//   array(
-//     'dimensions' => 'ga:date, ga:source, ga:medium, ga:channelGrouping, ga:deviceCategory, ga:landingPagePath ',
-//     'sort'        => 'ga:date',
-//     'max-results' => 20
-//   )
-// );
 
-// $returned_data_2 = $results_2->getRows();
+$results_2 = $analytics->data_ga->get(
+  'ga:' . $google_account[ 'profile' ], //profile id
+  'yesterday', // start date
+  'today',  // end date
+  'ga:sessions, ga:users, ga:newUsers, ga:entrances, ga:exits' , //metrics
+
+  array(
+    'dimensions' => 'ga:date, ga:source, ga:medium, ga:channelGrouping, ga:deviceCategory, ga:landingPagePath ',
+    'sort'        => 'ga:date',
+    'max-results' => 2
+  )
+);
+
+$returned_data_2 = $results_2->getRows();
+
+//print_r($returned_data_2);
+
+$all_things = array();
+$thing = sizeof($returned_data);
+print_r($thing);
+for($i = 0; $i <= $thing; $i++ ) {
+    $merged = array_merge($returned_data[$i],$returned_data_2[$i]);
+    array_push($all_things, $merged);
+}
+
+print_r($all_things);
+// ReturnedAnalyticsOne::transform($returned_data,$returned_data_2 );
+
 
 // print "<pre>";
 // print_r($returned_data_two);
