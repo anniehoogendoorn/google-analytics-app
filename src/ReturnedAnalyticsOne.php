@@ -271,25 +271,8 @@
     */
 
 
-        static function transform($returned_data, $returned_data_2)
+        static function transform($returned_data)
         {
-            // $result = array();
-            // foreach($returned_data as $val){ // Loop though one array
-            //
-            //     // print_r($val);
-            //     $sliced = array_slice($returned_data_2, 7, 3);
-            //     // print_r($sliced);
-            //     $val2 = $sliced; // Get the values from the other array
-            //     $result = array_push($result, $val);
-            //     $result = array_push($result, $val2); // combine 'em
-            // }
-            // print_r($result);
-
-            // $sliced = array_slice($returned_data_2[0], 7, 3);
-
-            // $merged = array_merge($returned_data[0], $sliced);
-
-            // print_r($merged);
 
             try {
                 $data = array();
@@ -320,7 +303,7 @@
                 array_push($data, $analytics_object);
                 }
                 print "<pre>";
-                // print_r ($data);
+                print_r ($data);
                 Print "</pre>";
             }   catch (Exception $e) {
                 echo "Data could not be saved to the database.";

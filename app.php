@@ -162,8 +162,8 @@ for($i = 0; $i < $thing; $i++ ) {
     array_push($all_things, $merged);
 }
 
-print_r($all_things);
-// ReturnedAnalyticsOne::transform($returned_data,$returned_data_2 );
+//print_r($all_things);
+ReturnedAnalyticsOne::transform($all_things);
 
 
 // print "<pre>";
