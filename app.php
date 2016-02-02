@@ -10,21 +10,21 @@ require_once 'src/user_data.php';
  * Start session to store auth data
  */
 session_start();
-//
-// try {
-//   $server = $server_placeholder;
-//   $username = $username_placeholder;
-//   $password = $password_placeholder;
-//   //setting up connection to our database
-//   $DB = new PDO($server, $username, $password);
-//   //Throw an exception when an error is encountered in the query
-//   $DB->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-//   $DB->exec("SET NAMES 'utf8'");
-//   // var_dump($DB);
-// } catch (Exception $e) {
-//   echo "Could not connect to the database";
-//   exit;
-// }
+
+try {
+  $server = $server_placeholder;
+  $username = $username_placeholder;
+  $password = $password_placeholder;
+  //setting up connection to our database
+  $DB = new PDO($server, $username, $password);
+  //Throw an exception when an error is encountered in the query
+  $DB->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+  $DB->exec("SET NAMES 'utf8'");
+  // var_dump($DB);
+} catch (Exception $e) {
+  echo "Could not connect to the database";
+  exit;
+}
 
 
 
@@ -162,8 +162,8 @@ for($i = 0; $i < $thing; $i++ ) {
     array_push($all_things, $merged);
 }
 
-//print_r($all_things);
-ReturnedAnalyticsOne::transform($all_things);
+// print_r($all_things);
+ReturnedAnalyticsOne::transform($returned_data,$returned_data_2 );
 
 
 // print "<pre>";
