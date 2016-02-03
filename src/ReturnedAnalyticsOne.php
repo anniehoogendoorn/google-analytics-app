@@ -324,22 +324,22 @@
     * inserts data from google analytics api into mysql data warehouse.
     */
 
-        function saveAll()
+        function saveAll($analytics_site)
         {
-            $GLOBALS['DB']->exec("INSERT INTO analytics_site1 (date, source, medium, channel_grouping, device_category, landing_page_path, sessions, transactions, transaction_revenue, page_views, bounces, session_duration, hits, total_events, unique_events, users, entrances, exits) VALUES ('{$this->date}', '{$this->source}', '{$this->medium}', '{$this->channel_grouping}', '{$this->device_category}', '{$this->sessions}', '{$this->landing_page_path}', '{$this->transactions}', '{$this->transaction_revenue}','{$this->page_views}', '{$this->bounces}', '{$this->session_duration}', '{$this->hits}', '{$this->total_events}', '{$this->unique_events}', '{$this->users}', '{$this->entrances}', '{$this->exits}')");
-            $this->id = $GLOBALS['DB']->lastInsertId();
-        }
 
+                $GLOBALS['DB']->exec("INSERT INTO " . $analytics_site . " (date, source, medium, channel_grouping, device_category, landing_page_path, sessions, transactions, transaction_revenue, page_views, bounces, session_duration, hits, total_events, unique_events, users, entrances, exits) VALUES ('{$this->date}', '{$this->source}', '{$this->medium}', '{$this->channel_grouping}', '{$this->device_category}', '{$this->sessions}', '{$this->landing_page_path}', '{$this->transactions}', '{$this->transaction_revenue}','{$this->page_views}', '{$this->bounces}', '{$this->session_duration}', '{$this->hits}', '{$this->total_events}', '{$this->unique_events}', '{$this->users}', '{$this->entrances}', '{$this->exits}')");
+                $this->id = $GLOBALS['DB']->lastInsertId();
+        }
     /**
     * transform method
     * accepts the api data and intances the object to prepare the data to be saved.
     */
 
 
-        static function transform($returned_data)
+        static function transform($returned_data, $analytics_site)
         {
 
-            try {
+
                 $data = array();
                 foreach($returned_data as $row) {
                 $date = $row[0];
@@ -363,18 +363,11 @@
 
                 $analytics_object = new ReturnedAnalyticsOne($date, $source, $medium, $channel_grouping, $device_category, $landing_page_path, $sessions, $transactions, $transaction_revenue, $page_views, $bounces, $session_duration, $hits, $total_events, $unique_events, $users, $entrances, $exits);
 
-                // $analytics_object->save();
+                $analytics_object->saveAll($analytics_site);
 
-                array_push($data, $analytics_object);
-                }
-                print "<pre>";
-                print_r ($data);
-                Print "</pre>";
-            }   catch (Exception $e) {
-                echo "Data could not be saved to the database.";
-                exit;
-                }
-
+                // array_push($data, $analytics_object);
+                // return $analytics_object, $analytics_site;
+            }
         }
 
 

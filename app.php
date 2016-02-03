@@ -95,13 +95,21 @@ $analytics = getService(
 $details_length = sizeof($details);
 
 print_r($details_length);
-
+$n = 1;
 for($i = 0; $i < $details_length; $i++) {
 
     $detail = $details[$i];
-    echo $detail->name;
+    echo $detail->name . " ";
     $packaged_data = ReturnedAnalyticsOne::extractAnalytics( $analytics, $detail->analytics_profile );
-    ReturnedAnalyticsOne::transform( $packaged_data );
+    $foo = ("analytics_site" . $n++);
+    print_r($foo);
+
+    ReturnedAnalyticsOne::transform( $packaged_data, $foo );
+
+
+    // $foo = "analytics_site" .++$i;
+    // print_r($foo);
+    // ReturnedAnalyticsOne::saveAll($foo);
 
 }
 
