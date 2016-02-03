@@ -276,7 +276,7 @@
               array(
                 'dimensions' => 'ga:date, ga:source, ga:medium, ga:channelGrouping, ga:deviceCategory, ga:landingPagePath ',
                 'sort'        => 'ga:date',
-                'max-results' => 3
+                'max-results' => 1
               )
             );
 
@@ -296,7 +296,7 @@
               array(
                 'dimensions' => 'ga:date, ga:source, ga:medium, ga:channelGrouping, ga:deviceCategory, ga:landingPagePath ',
                 'sort'        => 'ga:date',
-                'max-results' => 3
+                'max-results' => 1
               )
             );
 

@@ -4,7 +4,7 @@
     {
         private $id;
         private $services_id;
-        private $name;
+        public $name;
         public $analytics_profile;
 
     // constructor

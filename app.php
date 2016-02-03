@@ -33,8 +33,7 @@ try {
 }
 
 $details = Sites::getAll();
-$detail = $details[0];
-
+// $detail = $details[0];
 // print_r($detail->analytics_profile);
 
 /**
@@ -92,14 +91,29 @@ $analytics = getService(
  * unique_events, users, entrances, exits
  */
 
-$foo = $detail->analytics_profile; // hotel delux
-$packaged_data = ReturnedAnalyticsOne::extractAnalytics( $analytics, $foo );
 
-/**
- * Instance ReturnedAnalyticsOne Object via tranform method.
- */
+$details_length = sizeof($details);
 
- ReturnedAnalyticsOne::transform( $packaged_data );
+print_r($details_length);
+
+for($i = 0; $i < $details_length; $i++) {
+
+    $detail = $details[$i];
+    echo $detail->name;
+    $packaged_data = ReturnedAnalyticsOne::extractAnalytics( $analytics, $detail->analytics_profile );
+    ReturnedAnalyticsOne::transform( $packaged_data );
+
+}
+
+
+// // $foo = $detail->analytics_profile; // hotel delux
+// $packaged_data = ReturnedAnalyticsOne::extractAnalytics( $analytics, $foo );
+//
+// /**
+//  * Instance ReturnedAnalyticsOne Object via tranform method.
+//  */
+//
+//  ReturnedAnalyticsOne::transform( $packaged_data );
 
 
 
