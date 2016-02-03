@@ -27,24 +27,24 @@ try {
   //Throw an exception when an error is encountered in the query
   $DB->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
   $DB->exec("SET NAMES 'utf8'");
-  // var_dump($DB);
 } catch (Exception $e) {
   echo "Could not connect to the database";
   exit;
 }
 
+$details = Sites::getAll();
+$detail = $details[0];
 
-print_r(Sites::getAll());
-
+// print_r($detail->analytics_profile);
 
 /**
  * Set Google service account details
  */
 
 $google_account = array(
-  'email'   => $google_email_placholder,
-  'key'     => file_get_contents( $google_key_placeholder ),
-  'profile' => $google_profile_placholder
+      'email'   => $google_email_placholder,
+      'key'     => file_get_contents( $google_key_placeholder ),
+      'profile' => $google_profile_placholder
 );
 
 /**
@@ -52,28 +52,28 @@ $google_account = array(
  */
 
 function getService( $service_account_email, $key ) {
-  // Creates and returns the Analytics service object.
+    // Creates and returns the Analytics service object.
 
-  // Load the Google API PHP Client Library.
-  require_once 'vendor/autoload.php';
+    // Load the Google API PHP Client Library.
+    require_once 'vendor/autoload.php';
 
-  // Create and configure a new client object.
-  $client = new Google_Client();
-  $client->setApplicationName( 'Google Analytics Dashboard' );
-  $analytics = new Google_Service_Analytics( $client );
+    // Create and configure a new client object.
+    $client = new Google_Client();
+    $client->setApplicationName( 'Google Analytics Dashboard' );
+    $analytics = new Google_Service_Analytics( $client );
 
-  // Read the generated client_secrets.p12 key.
-  $cred = new Google_Auth_AssertionCredentials(
+    // Read the generated client_secrets.p12 key.
+    $cred = new Google_Auth_AssertionCredentials(
       $service_account_email,
       array( Google_Service_Analytics::ANALYTICS_READONLY ),
       $key
-  );
-  $client->setAssertionCredentials( $cred );
-  if( $client->getAuth()->isAccessTokenExpired() ) {
+    );
+    $client->setAssertionCredentials( $cred );
+    if( $client->getAuth()->isAccessTokenExpired() ) {
     $client->getAuth()->refreshTokenWithAssertion( $cred );
-  }
+    }
 
-  return $analytics;
+    return $analytics;
 }
 
 /**
@@ -85,69 +85,21 @@ $analytics = getService(
   $google_account[ 'key' ]
 );
 
-
-
 /**
- * Query the Analytics data part one.
+ * Query the Analytics data.
  * date, source, medium,channel_grouping, device_category, landing_page_path, sessions,
- * transactions, transaction_revenue, page_views, bounces, session_duration, hits, total_events, unique_events
+ * transactions, transaction_revenue, page_views, bounces, session_duration, hits, total_events,
+ * unique_events, users, entrances, exits
  */
 
-$results = $analytics->data_ga->get(
-  'ga:' . $google_account[ 'profile' ], //profile id
-  'yesterday', // start date
-  'today',  // end date
-  'ga:sessions, ga:transactions, ga:transactionRevenue, ga:pageViews, ga:bounces, ga:sessionDuration, ga:hits, ga:totalEvents, ga:uniqueEvents', //metrics
-
-  array(
-    'dimensions' => 'ga:date, ga:source, ga:medium, ga:channelGrouping, ga:deviceCategory, ga:landingPagePath ',
-    'sort'        => 'ga:date',
-    'max-results' => 3
-  )
-);
-
-$returned_data = $results->getRows();
-
-/**
- * Query the Analytics data part two.
- * users, entrances, exits
- */
-
-$results_2 = $analytics->data_ga->get(
-  'ga:' . $google_account[ 'profile' ], //profile id
-  'yesterday', // start date
-  'today',  // end date
-  'ga:sessions, ga:users, ga:newUsers, ga:entrances, ga:exits' , //metrics
-
-  array(
-    'dimensions' => 'ga:date, ga:source, ga:medium, ga:channelGrouping, ga:deviceCategory, ga:landingPagePath ',
-    'sort'        => 'ga:date',
-    'max-results' => 3
-  )
-);
-
-$returned_data_2 = $results_2->getRows();
-
-/**
- * Join part one and two of the returned Analytics data.
- */
-
-$packaged_data = array();
-$returned_data_length = sizeof($returned_data);
-
-for($i = 0; $i < $returned_data_length; $i++ ) {
-    $sliced = array_slice($returned_data_2[$i], 7, 3);
-    $merged = array_merge($returned_data[$i],$sliced);
-    array_push($packaged_data, $merged);
-}
-
-// print_r($all_things);
+$foo = $detail->analytics_profile; // hotel delux
+$packaged_data = ReturnedAnalyticsOne::extractAnalytics( $analytics, $foo );
 
 /**
  * Instance ReturnedAnalyticsOne Object via tranform method.
  */
 
-//ReturnedAnalyticsOne::transform( $packaged_data );
+ ReturnedAnalyticsOne::transform( $packaged_data );
 
 
 

@@ -255,6 +255,71 @@
         }
 
     /**
+    * extractAnalytics method
+    * Gets data from google analytics api.
+    */
+
+        static function extractAnalytics($analytics, $analytics_profile)
+        {
+            /**
+             * Query the Analytics data part one.
+             * date, source, medium,channel_grouping, device_category, landing_page_path, sessions,
+             * transactions, transaction_revenue, page_views, bounces, session_duration, hits, total_events, unique_events
+             */
+
+            $results = $analytics->data_ga->get(
+              'ga:' . $analytics_profile, //profile id
+              'yesterday', // start date
+              'today',  // end date
+              'ga:sessions, ga:transactions, ga:transactionRevenue, ga:pageViews, ga:bounces, ga:sessionDuration, ga:hits, ga:totalEvents, ga:uniqueEvents', //metrics
+
+              array(
+                'dimensions' => 'ga:date, ga:source, ga:medium, ga:channelGrouping, ga:deviceCategory, ga:landingPagePath ',
+                'sort'        => 'ga:date',
+                'max-results' => 3
+              )
+            );
+
+            $returned_data = $results->getRows();
+
+            /**
+             * Query the Analytics data part two.
+             * users, entrances, exits
+             */
+
+            $results_2 = $analytics->data_ga->get(
+              'ga:' . $analytics_profile, //profile id
+              'yesterday', // start date
+              'today',  // end date
+              'ga:sessions, ga:users, ga:newUsers, ga:entrances, ga:exits' , //metrics
+
+              array(
+                'dimensions' => 'ga:date, ga:source, ga:medium, ga:channelGrouping, ga:deviceCategory, ga:landingPagePath ',
+                'sort'        => 'ga:date',
+                'max-results' => 3
+              )
+            );
+
+            $returned_data_2 = $results_2->getRows();
+
+            /**
+             * Join part one and two of the returned Analytics data.
+             */
+
+            $packaged_data = array();
+            $returned_data_length = sizeof($returned_data);
+
+            for($i = 0; $i < $returned_data_length; $i++ ) {
+                $sliced = array_slice($returned_data_2[$i], 7, 3);
+                $merged = array_merge($returned_data[$i],$sliced);
+                array_push($packaged_data, $merged);
+            }
+
+            return $packaged_data;
+
+        }
+
+    /**
     * saveAll method
     * inserts data from google analytics api into mysql data warehouse.
     */

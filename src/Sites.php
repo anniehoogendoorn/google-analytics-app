@@ -5,7 +5,7 @@
         private $id;
         private $services_id;
         private $name;
-        private $analytics_profile;
+        public $analytics_profile;
 
     // constructor
 
