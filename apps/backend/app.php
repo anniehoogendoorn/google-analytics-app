@@ -97,15 +97,15 @@ $analytics = getService(
 
 $site_details_length = sizeof($site_details);
 
-print_r($site_details_length);
+echo "total sites : " . $site_details_length . "\n";
 $num = 1;
 for($i = 0; $i < $site_details_length; $i++) {
 
     $detail = $site_details[$i];
-    echo $detail->name . " ";
+    echo $detail->name . "\n";
     $packaged_data = ReturnedAnalytics::extractAnalytics( $analytics, $detail->analytics_profile );
     $analytics_site = ("analytics_site" . $num++);
-    print_r($analytics_site);
+    echo $analytics_site . "\n";
 
     /**
      * Instance ReturnedAnalyticsOne Object via tranform method.
