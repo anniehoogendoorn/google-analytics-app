@@ -45,9 +45,9 @@ $site_details = Sites::getAll();
  */
 
 $google_account = array(
-      'email'   => $google_email_placholder,
+      'email'   => $google_email_placeholder,
       'key'     => file_get_contents( $google_key_placeholder ),
-      'profile' => $google_profile_placholder
+      'profile' => $google_profile_placeholder
 );
 
 /**
