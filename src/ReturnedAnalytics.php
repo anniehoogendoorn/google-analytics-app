@@ -1,6 +1,6 @@
 <?php
 
-    class ReturnedAnalyticsOne
+    class ReturnedAnalytics
     {
         private $date;
         private $source;
@@ -361,7 +361,7 @@
                 $entrances = $row[16];
                 $exits = $row[17];
 
-                $analytics_object = new ReturnedAnalyticsOne($date, $source, $medium, $channel_grouping, $device_category, $landing_page_path, $sessions, $transactions, $transaction_revenue, $page_views, $bounces, $session_duration, $hits, $total_events, $unique_events, $users, $entrances, $exits);
+                $analytics_object = new ReturnedAnalytics($date, $source, $medium, $channel_grouping, $device_category, $landing_page_path, $sessions, $transactions, $transaction_revenue, $page_views, $bounces, $session_duration, $hits, $total_events, $unique_events, $users, $entrances, $exits);
 
                 $analytics_object->saveAll($analytics_site);
 
