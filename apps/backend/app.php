@@ -101,7 +101,7 @@ print_r($site_details_length);
 $num = 1;
 for($i = 0; $i < $site_details_length; $i++) {
 
-    $detail = $details[$i];
+    $detail = $site_details[$i];
     echo $detail->name . " ";
     $packaged_data = ReturnedAnalytics::extractAnalytics( $analytics, $detail->analytics_profile );
     $analytics_site = ("analytics_site" . $num++);
