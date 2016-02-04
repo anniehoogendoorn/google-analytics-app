@@ -33,7 +33,12 @@ try {
   exit;
 }
 
-$details = Sites::getAll();
+/**
+ * Gets objects from the site table
+ */
+
+$site_details = Sites::getAll();
+
 
 /**
  * Set Google service account details
@@ -90,27 +95,24 @@ $analytics = getService(
  * unique_events, users, entrances, exits
  */
 
-$details_length = sizeof($details);
+$site_details_length = sizeof($site_details);
 
-print_r($details_length);
-$n = 1;
-for($i = 0; $i < $details_length; $i++) {
+print_r($site_details_length);
+$num = 1;
+for($i = 0; $i < $site_details_length; $i++) {
 
     $detail = $details[$i];
     echo $detail->name . " ";
     $packaged_data = ReturnedAnalytics::extractAnalytics( $analytics, $detail->analytics_profile );
-    $foo = ("analytics_site" . $n++);
-    print_r($foo);
+    $analytics_site = ("analytics_site" . $num++);
+    print_r($analytics_site);
 
-    ReturnedAnalytics::transform( $packaged_data, $foo );
+    /**
+     * Instance ReturnedAnalyticsOne Object via tranform method.
+     */
+
+    ReturnedAnalytics::transform( $packaged_data, $analytics_site);
 
 }
 
-
-
-//
-// /**
-//  * Instance ReturnedAnalyticsOne Object via tranform method.
-//  */
-//
-//  ReturnedAnalyticsOne::transform( $packaged_data );
+?>

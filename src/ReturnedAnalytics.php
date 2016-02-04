@@ -261,11 +261,12 @@
 
         static function extractAnalytics($analytics, $analytics_profile)
         {
-            /**
-             * Query the Analytics data part one.
-             * date, source, medium,channel_grouping, device_category, landing_page_path, sessions,
-             * transactions, transaction_revenue, page_views, bounces, session_duration, hits, total_events, unique_events
-             */
+
+        /**
+         * Query the Analytics data part one.
+         * date, source, medium,channel_grouping, device_category, landing_page_path, sessions,
+         * transactions, transaction_revenue, page_views, bounces, session_duration, hits, total_events, unique_events
+         */
 
             $results = $analytics->data_ga->get(
               'ga:' . $analytics_profile, //profile id
@@ -282,10 +283,10 @@
 
             $returned_data = $results->getRows();
 
-            /**
-             * Query the Analytics data part two.
-             * users, entrances, exits
-             */
+        /**
+         * Query the Analytics data part two.
+         * users, entrances, exits
+         */
 
             $results_2 = $analytics->data_ga->get(
               'ga:' . $analytics_profile, //profile id
@@ -302,9 +303,9 @@
 
             $returned_data_2 = $results_2->getRows();
 
-            /**
-             * Join part one and two of the returned Analytics data.
-             */
+        /**
+         * Join part one and two of the returned Analytics data.
+         */
 
             $packaged_data = array();
             $returned_data_length = sizeof($returned_data);
@@ -320,21 +321,9 @@
         }
 
     /**
-    * saveAll method
-    * inserts data from google analytics api into mysql data warehouse.
-    */
-
-        function saveAll($analytics_site)
-        {
-
-                $GLOBALS['DB']->exec("INSERT INTO " . $analytics_site . " (date, source, medium, channel_grouping, device_category, landing_page_path, sessions, transactions, transaction_revenue, page_views, bounces, session_duration, hits, total_events, unique_events, users, entrances, exits) VALUES ('{$this->date}', '{$this->source}', '{$this->medium}', '{$this->channel_grouping}', '{$this->device_category}', '{$this->sessions}', '{$this->landing_page_path}', '{$this->transactions}', '{$this->transaction_revenue}','{$this->page_views}', '{$this->bounces}', '{$this->session_duration}', '{$this->hits}', '{$this->total_events}', '{$this->unique_events}', '{$this->users}', '{$this->entrances}', '{$this->exits}')");
-                $this->id = $GLOBALS['DB']->lastInsertId();
-        }
-    /**
     * transform method
     * accepts the api data and intances the object to prepare the data to be saved.
     */
-
 
         static function transform($returned_data, $analytics_site)
         {
@@ -363,17 +352,28 @@
 
                 $analytics_object = new ReturnedAnalytics($date, $source, $medium, $channel_grouping, $device_category, $landing_page_path, $sessions, $transactions, $transaction_revenue, $page_views, $bounces, $session_duration, $hits, $total_events, $unique_events, $users, $entrances, $exits);
 
-                $analytics_object->saveAll($analytics_site);
 
-                // array_push($data, $analytics_object);
-                // return $analytics_object, $analytics_site;
+                // uncommet to view output in console
+                print_r($analytics_object);
+
+                // uncomment to save to DB
+                // $analytics_object->saveAll($analytics_site);
+
+
             }
         }
 
+    /**
+    * saveAll method
+    * inserts data from google analytics api into mysql data warehouse.
+    */
 
+        function saveAll($analytics_site)
+        {
 
-
-
+                $GLOBALS['DB']->exec("INSERT INTO " . $analytics_site . " (date, source, medium, channel_grouping, device_category, landing_page_path, sessions, transactions, transaction_revenue, page_views, bounces, session_duration, hits, total_events, unique_events, users, entrances, exits) VALUES ('{$this->date}', '{$this->source}', '{$this->medium}', '{$this->channel_grouping}', '{$this->device_category}', '{$this->sessions}', '{$this->landing_page_path}', '{$this->transactions}', '{$this->transaction_revenue}','{$this->page_views}', '{$this->bounces}', '{$this->session_duration}', '{$this->hits}', '{$this->total_events}', '{$this->unique_events}', '{$this->users}', '{$this->entrances}', '{$this->exits}')");
+                $this->id = $GLOBALS['DB']->lastInsertId();
+        }
 
     }
 
