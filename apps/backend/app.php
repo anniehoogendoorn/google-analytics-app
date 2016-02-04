@@ -97,7 +97,10 @@ $analytics = getService(
 
 $site_details_length = sizeof($site_details);
 
-echo "total sites : " . $site_details_length . "\n";
+echo "*******************" . "\n";
+echo "* total sites : " . $site_details_length . " *" . "\n";
+echo "*******************" . "\n";
+
 $num = 1;
 for($i = 0; $i < $site_details_length; $i++) {
 

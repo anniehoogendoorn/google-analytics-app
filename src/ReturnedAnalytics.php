@@ -256,7 +256,8 @@
 
     /**
     * extractAnalytics method
-    * Gets data from google analytics api.
+    * Gets data from google analytics api in two calls
+    * (due to metrics/dementions limets) and combine them.
     */
 
         static function extractAnalytics($analytics, $analytics_profile)
