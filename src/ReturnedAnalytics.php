@@ -272,13 +272,13 @@
             $results = $analytics->data_ga->get(
               'ga:' . $analytics_profile, //profile id
               'yesterday', // start date
-              'today',  // end date
+              'yesterday',  // end date
               'ga:sessions, ga:transactions, ga:transactionRevenue, ga:pageViews, ga:bounces, ga:sessionDuration, ga:hits, ga:totalEvents, ga:uniqueEvents', //metrics
 
               array(
                 'dimensions' => 'ga:date, ga:source, ga:medium, ga:channelGrouping, ga:deviceCategory, ga:landingPagePath ',
-                'sort'        => 'ga:date',
-                'max-results' => 1
+                'sort'        => 'ga:date'
+                //'max-results' => 1
               )
             );
 
@@ -292,13 +292,13 @@
             $results_2 = $analytics->data_ga->get(
               'ga:' . $analytics_profile, //profile id
               'yesterday', // start date
-              'today',  // end date
+              'yesterday',  // end date
               'ga:sessions, ga:users, ga:newUsers, ga:entrances, ga:exits' , //metrics
 
               array(
                 'dimensions' => 'ga:date, ga:source, ga:medium, ga:channelGrouping, ga:deviceCategory, ga:landingPagePath ',
-                'sort'        => 'ga:date',
-                'max-results' => 1
+                'sort'        => 'ga:date'
+                //'max-results' => 1
               )
             );
 

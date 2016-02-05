@@ -34,13 +34,6 @@ try {
 }
 
 /**
- * Gets objects from the site table
- */
-
-$site_details = Sites::getAll();
-
-
-/**
  * Set Google service account details
  */
 
@@ -87,6 +80,12 @@ $analytics = getService(
   $google_account[ 'email' ],
   $google_account[ 'key' ]
 );
+
+/**
+ * Gets objects from the site table
+ */
+
+$site_details = Sites::getAll();
 
 /**
  * Query the Analytics data.
