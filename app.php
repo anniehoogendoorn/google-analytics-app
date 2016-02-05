@@ -3,7 +3,7 @@
  * Load Google API library, Our ETL Classes, and authorization credentials
  */
 
-require_once 'vendor/autoload.php';
+require_once 'src/Google/autoload.php';
 require_once 'src/ReturnedAnalyticsOne.php';
 require_once 'src/Sites.php';
 require_once 'src/user_data.php';
@@ -54,7 +54,7 @@ function getService( $service_account_email, $key ) {
     // Creates and returns the Analytics service object.
 
     // Load the Google API PHP Client Library.
-    require_once 'vendor/autoload.php';
+    require_once 'src/Google/autoload.php';
 
     // Create and configure a new client object.
     $client = new Google_Client();
