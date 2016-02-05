@@ -3,7 +3,7 @@
  * Load Google API library, Our ETL Classes, and authorization credentials
  */
 
-require_once __DIR__."/../../vendor/autoload.php";
+require_once __DIR__."/../../lib/Google/autoload.php";
 require_once __DIR__."/../../src/ReturnedAnalytics.php";
 require_once __DIR__."/../../src/Sites.php";
 require_once __DIR__."/../../src/user_data.php";
