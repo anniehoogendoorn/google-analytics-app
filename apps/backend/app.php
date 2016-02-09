@@ -8,7 +8,6 @@ require_once __DIR__."/../../src/ReturnedAnalytics.php";
 require_once __DIR__."/../../src/Sites.php";
 require_once __DIR__."/../../src/user_data.php";
 
-
 /**
  * Start session to store auth data
  */
@@ -16,21 +15,28 @@ require_once __DIR__."/../../src/user_data.php";
 session_start();
 
 /**
+ * Set timestamp for logging
+ */
+
+date_default_timezone_set('Etc/GMT');
+$today = date('Y-m-d H:i:s', strtotime( $today." GMT+8"));
+
+/**
  * Connect to database
  */
 
 try {
-  $server = $server_placeholder;
-  $username = $username_placeholder;
-  $password = $password_placeholder;
-  //setting up connection to our database
-  $DB = new PDO($server, $username, $password);
-  //Throw an exception when an error is encountered in the query
-  $DB->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-  $DB->exec("SET NAMES 'utf8'");
-} catch (Exception $e) {
-  echo "Could not connect to the database";
-  exit;
+        $server = $server_placeholder;
+        $username = $username_placeholder;
+        $password = $password_placeholder;
+        //setting up connection to our database
+        $DB = new PDO($server, $username, $password);
+        //Throw an exception when an error is encountered in the query
+        $DB->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+        $DB->exec("SET NAMES 'utf8'");
+    } catch (Exception $e) {
+        echo $today." Could not connect to the database "."\n";
+        exit;
 }
 
 /**
@@ -43,34 +49,47 @@ $google_account = array(
       'profile' => $google_profile_placeholder
 );
 
+try {
+        $email_check = '/[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})/';
+        // preg_match($email_check, $google_account[0]);
+        print_r(preg_match($email_check, $google_account[0]));
+    } catch (Exception $e) {
+        echo $today." google_account array was not created "."\n";
+        exit;
+}
+
+
+
 /**
  * Get Analytics API object
  */
 
-function getService( $service_account_email, $key ) {
-    // Creates and returns the Analytics service object.
 
-    // Load the Google API PHP Client Library.
-    require_once __DIR__."/../../lib/Google/autoload.php";
 
-    // Create and configure a new client object.
-    $client = new Google_Client();
-    $client->setApplicationName( 'Google Analytics Dashboard' );
-    $analytics = new Google_Service_Analytics( $client );
+    function getService( $service_account_email, $key ) {
+        // Creates and returns the Analytics service object.
 
-    // Read the generated client_secrets.p12 key.
-    $cred = new Google_Auth_AssertionCredentials(
-      $service_account_email,
-      array( Google_Service_Analytics::ANALYTICS_READONLY ),
-      $key
-    );
-    $client->setAssertionCredentials( $cred );
-    if( $client->getAuth()->isAccessTokenExpired() ) {
-    $client->getAuth()->refreshTokenWithAssertion( $cred );
+        // Load the Google API PHP Client Library.
+        require_once __DIR__."/../../lib/Google/autoload.php";
+
+        // Create and configure a new client object.
+        $client = new Google_Client();
+        $client->setApplicationName( 'Google Analytics Dashboard' );
+        $analytics = new Google_Service_Analytics( $client );
+
+        // Read the generated client_secrets.p12 key.
+        $cred = new Google_Auth_AssertionCredentials(
+          $service_account_email,
+          array( Google_Service_Analytics::ANALYTICS_READONLY ),
+          $key
+        );
+        $client->setAssertionCredentials( $cred );
+        if( $client->getAuth()->isAccessTokenExpired() ) {
+        $client->getAuth()->refreshTokenWithAssertion( $cred );
+        }
+
+        return $analytics;
     }
-
-    return $analytics;
-}
 
 /**
  * Get Analytics API instance
