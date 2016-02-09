@@ -1,0 +1,26 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Analytics data</title>
+    <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css'>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Provenance</h1>
+      <!-- {% if sites is not empty %} -->
+        <p>List of sites:</p>
+      <ul>
+          {% for key, value in properties %}
+          <li>{{ value }} : {{ key }}</li>
+          {% endfor %}
+      </ul>
+      <!-- {% else %}
+          <p>
+            There are no sites saved in the table
+          </p>
+      {% endif%} -->
+
+    </div>
+
+  </body>
+</html>
