@@ -35,7 +35,7 @@ try {
         $DB->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
         $DB->exec("SET NAMES 'utf8'");
     } catch (Exception $e) {
-        echo $today." Could not connect to the database "."\n";
+        echo $today . " " .$e->getMessage(). " In file " .$e->getFile(). " line " .$e->getLine(). "\n";
         exit;
 }
 
@@ -49,50 +49,49 @@ $google_account = array(
       'profile' => $google_profile_placeholder
 );
 
-try {
-        $email_check = '#^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$#';
-        preg_match($email_check, $google_account[email]);
-    } catch (Exception $e) {
-        echo $today." google_account array was not created "."\n";
-        exit;
+$email_check = "/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/";
+if (preg_match($email_check, $google_account[email]) === 1) {
+    // the email is valid
+} else {
+    trigger_error('Invalid email address in google_accont ', E_USER_NOTICE);
 }
 
 /**
  * Get Analytics API object
  */
 
-    function getService( $service_account_email, $key ) {
-        // Creates and returns the Analytics service object.
+function getService( $service_account_email, $key ) {
+    // Creates and returns the Analytics service object.
 
-        // Load the Google API PHP Client Library.
-        require_once __DIR__."/../../lib/Google/autoload.php";
+    // Load the Google API PHP Client Library.
+    require_once __DIR__."/../../lib/Google/autoload.php";
 
-        // Create and configure a new client object.
-        $client = new Google_Client();
-        $client->setApplicationName( 'Google Analytics Dashboard' );
-        $analytics = new Google_Service_Analytics( $client );
+    // Create and configure a new client object.
+    $client = new Google_Client();
+    $client->setApplicationName( 'Google Analytics Dashboard' );
+    $analytics = new Google_Service_Analytics( $client );
 
-        // Read the generated client_secrets.p12 key.
-        $cred = new Google_Auth_AssertionCredentials(
-          $service_account_email,
-          array( Google_Service_Analytics::ANALYTICS_READONLY ),
-          $key
-        );
-        $client->setAssertionCredentials( $cred );
-        if( $client->getAuth()->isAccessTokenExpired() ) {
-        $client->getAuth()->refreshTokenWithAssertion( $cred );
-        }
-
-        return $analytics;
+    // Read the generated client_secrets.p12 key.
+    $cred = new Google_Auth_AssertionCredentials(
+      $service_account_email,
+      array( Google_Service_Analytics::ANALYTICS_READONLY ),
+      $key
+    );
+    $client->setAssertionCredentials( $cred );
+    if( $client->getAuth()->isAccessTokenExpired() ) {
+    $client->getAuth()->refreshTokenWithAssertion( $cred );
     }
+
+    return $analytics;
+}
 
 /**
  * Get Analytics API instance
  */
 
 $analytics = getService(
-  $google_account[ 'email' ],
-  $google_account[ 'key' ]
+    $google_account[ 'email' ],
+    $google_account[ 'key' ]
 );
 
 /**
@@ -101,18 +100,21 @@ $analytics = getService(
 
 $site_details = Sites::getAll();
 
+$site_details_length = sizeof($site_details);
+if ($site_details_length <= 0) {
+    trigger_error('Size of site_details_length must be greater than zero', E_USER_NOTICE);
+}
+echo "*******************" . "\n";
+echo "* total sites : " . $site_details_length . " *" . "\n";
+echo "*******************" . "\n";
+
+
 /**
  * Query the Analytics data.
  * date, source, medium,channel_grouping, device_category, landing_page_path, sessions,
  * transactions, transaction_revenue, page_views, bounces, session_duration, hits, total_events,
  * unique_events, users, entrances, exits
  */
-
-$site_details_length = sizeof($site_details);
-
-echo "*******************" . "\n";
-echo "* total sites : " . $site_details_length . " *" . "\n";
-echo "*******************" . "\n";
 
 $num = 1;
 for($i = 0; $i < $site_details_length; $i++) {
