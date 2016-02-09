@@ -50,21 +50,16 @@ $google_account = array(
 );
 
 try {
-        $email_check = '/[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})/';
-        // preg_match($email_check, $google_account[0]);
-        print_r(preg_match($email_check, $google_account[0]));
+        $email_check = '#^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$#';
+        preg_match($email_check, $google_account[email]);
     } catch (Exception $e) {
         echo $today." google_account array was not created "."\n";
         exit;
 }
 
-
-
 /**
  * Get Analytics API object
  */
-
-
 
     function getService( $service_account_email, $key ) {
         // Creates and returns the Analytics service object.
@@ -132,7 +127,7 @@ for($i = 0; $i < $site_details_length; $i++) {
      * Instance ReturnedAnalyticsOne Object via tranform method.
      */
 
-    ReturnedAnalytics::transform( $packaged_data, $analytics_site);
+    //ReturnedAnalytics::transform( $packaged_data, $analytics_site);
 
 }
 
