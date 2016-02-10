@@ -26,7 +26,7 @@ $today = date('Y-m-d H:i:s', strtotime( $today." GMT+8"));
  */
 
 try {
-        $server = $server_placeholder;
+        $server = $server_placeholde;
         $username = $username_placeholder;
         $password = $password_placeholder;
         //setting up connection to our database
@@ -36,6 +36,7 @@ try {
         $DB->exec("SET NAMES 'utf8'");
     } catch (Exception $e) {
         echo $today . " " .$e->getMessage(). " In file " .$e->getFile(). " line " .$e->getLine(). "\n";
+        error_log($today . " " .$e->getMessage(). " In file " .$e->getFile(). "\n", 3, __DIR__."/../../log/error.log");
         exit;
 }
 
@@ -129,7 +130,7 @@ for($i = 0; $i < $site_details_length; $i++) {
      * Instance ReturnedAnalyticsOne Object via tranform method.
      */
 
-    ReturnedAnalytics::transform( $packaged_data, $analytics_site);
+    // ReturnedAnalytics::transform( $packaged_data, $analytics_site);
 
 }
 
