@@ -105,13 +105,12 @@ $site_details = Sites::getAll();
 $site_details_length = sizeof($site_details);
 if ($site_details_length <= 0) {
     trigger_error('Size of site_details_length must be greater than zero', E_USER_NOTICE);
-    error_log($today . "the sites tables has return zero sites from the database \n", 3, __DIR__."/../../log/error.log");
+    error_log($today . "The sites tables has return zero sites from the database \n", 3, __DIR__."/../../log/error.log");
     exit;
 }
 echo "*******************" . "\n";
 echo "* total sites : " . $site_details_length . " *" . "\n";
 echo "*******************" . "\n";
-
 
 /**
  * Query the Analytics data.
@@ -137,8 +136,18 @@ for($i = 0; $i < $site_details_length; $i++) {
 
 }
 
+echo "NOTE: To output data to terminal or save to database you will need to uncomment those options in the src/ReturnedAnalytics.php on line 358 or 361. \n";
+
+/**
+ * Confirms that each site has be iterated through.
+ */
+
 if (($num - $site_details_length) === 1) {
-    echo "oh hell yeah /n";
+    // all the sites have been iterated through.
+} else {
+    trigger_error('All of the sites have not been iterated through.', E_USER_NOTICE);
+    error_log($today . "All of the sites have not been iterated through \n", 3, __DIR__."/../../log/error.log");
+    exit;
 }
 
 ?>

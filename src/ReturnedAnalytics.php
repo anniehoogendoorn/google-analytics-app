@@ -360,8 +360,8 @@
                 // uncomment to save to DB
                 // $analytics_object->saveAll($analytics_site);
 
+                }
 
-            }
         }
 
     /**
@@ -403,20 +403,16 @@
                   CONSTRAINT `" . $analytics_site . "_ibfk_1` FOREIGN KEY (`sites_id`) REFERENCES `sites` (`id`)
                 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;");
 
-            } else {
+            }
 
                 // table was found.
                 echo $analytics_site. " was found \n";
 
                 $GLOBALS['DB']->exec("INSERT INTO " . $analytics_site . " (date, source, medium, channel_grouping, device_category, landing_page_path, sessions, transactions, transaction_revenue, page_views, bounces, session_duration, hits, total_events, unique_events, users, entrances, exits) VALUES ('{$this->date}', '{$this->source}', '{$this->medium}', '{$this->channel_grouping}', '{$this->device_category}', '{$this->sessions}', '{$this->landing_page_path}', '{$this->transactions}', '{$this->transaction_revenue}','{$this->page_views}', '{$this->bounces}', '{$this->session_duration}', '{$this->hits}', '{$this->total_events}', '{$this->unique_events}', '{$this->users}', '{$this->entrances}', '{$this->exits}')");
                 $this->id = $GLOBALS['DB']->lastInsertId();
-            }
 
         }
 
     }
-
-
-
 
  ?>
