@@ -2,7 +2,7 @@
 
     class Sites
     {
-        private $id;
+        public $id;
         private $services_id;
         public $name;
         public $analytics_profile;
