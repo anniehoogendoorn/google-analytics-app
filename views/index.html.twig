@@ -7,18 +7,18 @@
   <body>
     <div class="container">
       <h1>Provenance</h1>
-      <!-- {% if sites is not empty %} -->
-        <p>List of sites:</p>
+      {% if sites is not empty %}
+        <p>Sites:</p>
       <ul>
-          {% for key, value in properties %}
-          <li>{{ value }} : {{ key }}</li>
+          {% for site in sites %}
+          <li>{{ site.getName }}</li>
           {% endfor %}
       </ul>
-      <!-- {% else %}
+      {% else %}
           <p>
             There are no sites saved in the table
           </p>
-      {% endif%} -->
+      {% endif%}
 
     </div>
 
