@@ -11,7 +11,7 @@
         <p>Sites:</p>
       <ul>
           {% for site in sites %}
-          <li>{{ site.getName }}</li>
+          <li><a href='/site/{{ site.id }}'>{{ site.getName }} {{site.id}}</li>
           {% endfor %}
       </ul>
       {% else %}

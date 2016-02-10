@@ -47,18 +47,13 @@
 
     //This takes the user to "/" page, in which we render our index.html.twig page. It also pushes our categories to be listed.
     $app->get("/", function() use ($app){
-    // $sites = Sites::getAll();
-    // $properties = get_object_vars($sites);
     return $app['twig']->render('index.html.twig', array('sites' => Sites::getAll()));
 
     });
 
-    // $app->get("/", function() {
-    //   $sites = Sites::getAll();
-    //   return $sites->getName();
-    // });
-
-
+    $app->get('/site/{id}', function($id) use ($app) {
+        return $app['twig']->render('site.html.twig', array('analytics' => ReturnedAnalytics::getAll()));
+    });
 
     return $app;
 
