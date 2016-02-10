@@ -123,13 +123,13 @@ for($i = 0; $i < $site_details_length; $i++) {
     echo $detail->name . "\n";
     $packaged_data = ReturnedAnalytics::extractAnalytics( $analytics, $detail->analytics_profile );
     $analytics_site = ("analytics_site" . $num++);
-    echo $analytics_site . "\n";
+    // echo $analytics_site . "\n";
 
     /**
      * Instance ReturnedAnalyticsOne Object via tranform method.
      */
 
-    //ReturnedAnalytics::transform( $packaged_data, $analytics_site);
+    ReturnedAnalytics::transform( $packaged_data, $analytics_site);
 
 }
 
