@@ -331,7 +331,7 @@
 
 
                 $data = array();
-                foreach($returned_data as $row) {
+                foreach($packaged_data as $row) {
                 $date = $row[0];
                 $source = $row[1];
                 $medium = $row[2];
@@ -375,7 +375,7 @@
             $val = $GLOBALS['DB']->query('select 1 from ' . $analytics_site . ' LIMIT 1');
             if($val == FALSE)
             {
-                echo "there is NO table";
+                 // No table was found. So we create one.
 
                 $GLOBALS['DB']->exec("CREATE TABLE " . $analytics_site . " (
                   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -405,7 +405,8 @@
 
             } else {
 
-                echo " THERE IS A TABLE " . $analytics_site . "\n";
+                // table was found.
+                echo $analytics_site. " was found \n";
 
                 $GLOBALS['DB']->exec("INSERT INTO " . $analytics_site . " (date, source, medium, channel_grouping, device_category, landing_page_path, sessions, transactions, transaction_revenue, page_views, bounces, session_duration, hits, total_events, unique_events, users, entrances, exits) VALUES ('{$this->date}', '{$this->source}', '{$this->medium}', '{$this->channel_grouping}', '{$this->device_category}', '{$this->sessions}', '{$this->landing_page_path}', '{$this->transactions}', '{$this->transaction_revenue}','{$this->page_views}', '{$this->bounces}', '{$this->session_duration}', '{$this->hits}', '{$this->total_events}', '{$this->unique_events}', '{$this->users}', '{$this->entrances}', '{$this->exits}')");
                 $this->id = $GLOBALS['DB']->lastInsertId();

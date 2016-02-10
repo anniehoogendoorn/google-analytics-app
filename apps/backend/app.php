@@ -26,7 +26,7 @@ $today = date('Y-m-d H:i:s', strtotime( $today." GMT+8"));
  */
 
 try {
-        $server = $server_placeholde;
+        $server = $server_placeholder;
         $username = $username_placeholder;
         $password = $password_placeholder;
         //setting up connection to our database
@@ -55,6 +55,7 @@ if (preg_match($email_check, $google_account[email]) === 1) {
     // the email is valid
 } else {
     trigger_error('Invalid email address in google_accont ', E_USER_NOTICE);
+    error_log($today . " invalid email address in google_accont \n", 3, __DIR__."/../../log/error.log");
 }
 
 /**
@@ -104,6 +105,8 @@ $site_details = Sites::getAll();
 $site_details_length = sizeof($site_details);
 if ($site_details_length <= 0) {
     trigger_error('Size of site_details_length must be greater than zero', E_USER_NOTICE);
+    error_log($today . "the sites tables has return zero sites from the database \n", 3, __DIR__."/../../log/error.log");
+    exit;
 }
 echo "*******************" . "\n";
 echo "* total sites : " . $site_details_length . " *" . "\n";
@@ -130,8 +133,12 @@ for($i = 0; $i < $site_details_length; $i++) {
      * Instance ReturnedAnalyticsOne Object via tranform method.
      */
 
-    // ReturnedAnalytics::transform( $packaged_data, $analytics_site);
+    ReturnedAnalytics::transform( $packaged_data, $analytics_site);
 
+}
+
+if (($num - $site_details_length) === 1) {
+    echo "oh hell yeah /n";
 }
 
 ?>
