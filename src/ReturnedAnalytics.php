@@ -277,8 +277,8 @@
 
               array(
                 'dimensions' => 'ga:date, ga:source, ga:medium, ga:channelGrouping, ga:deviceCategory, ga:landingPagePath ',
-                'sort'        => 'ga:date'
-                //'max-results' => 1
+                'sort'        => 'ga:date',
+                'max-results' => 1
               )
             );
 
@@ -297,8 +297,8 @@
 
               array(
                 'dimensions' => 'ga:date, ga:source, ga:medium, ga:channelGrouping, ga:deviceCategory, ga:landingPagePath ',
-                'sort'        => 'ga:date'
-                //'max-results' => 1
+                'sort'        => 'ga:date',
+                'max-results' => 1
               )
             );
 
@@ -326,12 +326,12 @@
     * accepts the api data and intances the object to prepare the data to be saved.
     */
 
-        static function transform($returned_data, $analytics_site)
+        static function transform($packaged_data, $analytics_site)
         {
 
 
                 $data = array();
-                foreach($returned_data as $row) {
+                foreach($packaged_data as $row) {
                 $date = $row[0];
                 $source = $row[1];
                 $medium = $row[2];
@@ -355,13 +355,13 @@
 
 
                 // uncommet to view output in console
-                print_r($analytics_object);
+                // print_r($analytics_object);
 
                 // uncomment to save to DB
                 // $analytics_object->saveAll($analytics_site);
 
+                }
 
-            }
         }
 
     /**
@@ -372,13 +372,47 @@
         function saveAll($analytics_site)
         {
 
+            $val = $GLOBALS['DB']->query('select 1 from ' . $analytics_site . ' LIMIT 1');
+            if($val == FALSE)
+            {
+                 // No table was found. So we create one.
+
+                $GLOBALS['DB']->exec("CREATE TABLE " . $analytics_site . " (
+                  `id` int(11) NOT NULL AUTO_INCREMENT,
+                  `sites_id` int(11) DEFAULT NULL,
+                  `date` varchar(255) DEFAULT NULL,
+                  `source` varchar(255) DEFAULT NULL,
+                  `medium` varchar(255) DEFAULT NULL,
+                  `channel_grouping` varchar(255) DEFAULT NULL,
+                  `device_category` varchar(255) DEFAULT NULL,
+                  `landing_page_path` varchar(255) DEFAULT NULL,
+                  `sessions` varchar(255) DEFAULT NULL,
+                  `transactions` varchar(255) DEFAULT NULL,
+                  `transaction_revenue` varchar(255) DEFAULT NULL,
+                  `page_views` varchar(255) DEFAULT NULL,
+                  `bounces` varchar(255) DEFAULT NULL,
+                  `session_duration` varchar(255) DEFAULT NULL,
+                  `hits` varchar(255) DEFAULT NULL,
+                  `total_events` varchar(255) DEFAULT NULL,
+                  `unique_events` varchar(255) DEFAULT NULL,
+                  `users` varchar(255) DEFAULT NULL,
+                  `entrances` varchar(255) DEFAULT NULL,
+                  `exits` varchar(255) DEFAULT NULL COMMENT ' ',
+                  PRIMARY KEY (`id`),
+                  KEY `sites_id` (`sites_id`),
+                  CONSTRAINT `" . $analytics_site . "_ibfk_1` FOREIGN KEY (`sites_id`) REFERENCES `sites` (`id`)
+                ) ENGINE=InnoDB DEFAULT CHARSET=latin1;");
+
+            }
+
+                // table was found.
+                echo $analytics_site. " was found \n";
+
                 $GLOBALS['DB']->exec("INSERT INTO " . $analytics_site . " (date, source, medium, channel_grouping, device_category, landing_page_path, sessions, transactions, transaction_revenue, page_views, bounces, session_duration, hits, total_events, unique_events, users, entrances, exits) VALUES ('{$this->date}', '{$this->source}', '{$this->medium}', '{$this->channel_grouping}', '{$this->device_category}', '{$this->sessions}', '{$this->landing_page_path}', '{$this->transactions}', '{$this->transaction_revenue}','{$this->page_views}', '{$this->bounces}', '{$this->session_duration}', '{$this->hits}', '{$this->total_events}', '{$this->unique_events}', '{$this->users}', '{$this->entrances}', '{$this->exits}')");
                 $this->id = $GLOBALS['DB']->lastInsertId();
+
         }
 
     }
-
-
-
 
  ?>

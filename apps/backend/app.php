@@ -8,7 +8,6 @@ require_once __DIR__."/../../src/ReturnedAnalytics.php";
 require_once __DIR__."/../../src/Sites.php";
 require_once __DIR__."/../../src/user_data.php";
 
-
 /**
  * Start session to store auth data
  */
@@ -16,21 +15,29 @@ require_once __DIR__."/../../src/user_data.php";
 session_start();
 
 /**
+ * Set timestamp for logging
+ */
+
+date_default_timezone_set('Etc/GMT');
+$today = date('Y-m-d H:i:s', strtotime( $today." GMT+8"));
+
+/**
  * Connect to database
  */
 
 try {
-  $server = $server_placeholder;
-  $username = $username_placeholder;
-  $password = $password_placeholder;
-  //setting up connection to our database
-  $DB = new PDO($server, $username, $password);
-  //Throw an exception when an error is encountered in the query
-  $DB->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
-  $DB->exec("SET NAMES 'utf8'");
-} catch (Exception $e) {
-  echo "Could not connect to the database";
-  exit;
+        $server = $server_placeholder;
+        $username = $username_placeholder;
+        $password = $password_placeholder;
+        //setting up connection to our database
+        $DB = new PDO($server, $username, $password);
+        //Throw an exception when an error is encountered in the query
+        $DB->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
+        $DB->exec("SET NAMES 'utf8'");
+    } catch (Exception $e) {
+        echo $today . " " .$e->getMessage(). " In file " .$e->getFile(). " line " .$e->getLine(). "\n";
+        error_log($today . " " .$e->getMessage(). " In file " .$e->getFile(). "\n", 3, __DIR__."/../../log/error.log");
+        exit;
 }
 
 /**
@@ -42,6 +49,14 @@ $google_account = array(
       'key'     => file_get_contents($google_key_placeholder),
       'profile' => $google_profile_placeholder
 );
+
+$email_check = "/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/";
+if (preg_match($email_check, $google_account[email]) === 1) {
+    // the email is valid
+} else {
+    trigger_error('Invalid email address in google_accont ', E_USER_NOTICE);
+    error_log($today . " invalid email address in google_accont \n", 3, __DIR__."/../../log/error.log");
+}
 
 /**
  * Get Analytics API object
@@ -77,8 +92,8 @@ function getService( $service_account_email, $key ) {
  */
 
 $analytics = getService(
-  $google_account[ 'email' ],
-  $google_account[ 'key' ]
+    $google_account[ 'email' ],
+    $google_account[ 'key' ]
 );
 
 /**
@@ -87,18 +102,22 @@ $analytics = getService(
 
 $site_details = Sites::getAll();
 
+$site_details_length = sizeof($site_details);
+if ($site_details_length <= 0) {
+    trigger_error('Size of site_details_length must be greater than zero', E_USER_NOTICE);
+    error_log($today . "The sites tables has return zero sites from the database \n", 3, __DIR__."/../../log/error.log");
+    exit;
+}
+echo "*******************" . "\n";
+echo "* total sites : " . $site_details_length . " *" . "\n";
+echo "*******************" . "\n";
+
 /**
  * Query the Analytics data.
  * date, source, medium,channel_grouping, device_category, landing_page_path, sessions,
  * transactions, transaction_revenue, page_views, bounces, session_duration, hits, total_events,
  * unique_events, users, entrances, exits
  */
-
-$site_details_length = sizeof($site_details);
-
-echo "*******************" . "\n";
-echo "* total sites : " . $site_details_length . " *" . "\n";
-echo "*******************" . "\n";
 
 $num = 1;
 for($i = 0; $i < $site_details_length; $i++) {
@@ -107,7 +126,7 @@ for($i = 0; $i < $site_details_length; $i++) {
     echo $detail->name . "\n";
     $packaged_data = ReturnedAnalytics::extractAnalytics( $analytics, $detail->analytics_profile );
     $analytics_site = ("analytics_site" . $num++);
-    echo $analytics_site . "\n";
+    // echo $analytics_site . "\n";
 
     /**
      * Instance ReturnedAnalyticsOne Object via tranform method.
@@ -115,6 +134,20 @@ for($i = 0; $i < $site_details_length; $i++) {
 
     ReturnedAnalytics::transform( $packaged_data, $analytics_site);
 
+}
+
+echo "NOTE: To output data to terminal or save to database you will need to uncomment those options in the src/ReturnedAnalytics.php on line 358 or 361. \n";
+
+/**
+ * Confirms that each site has be iterated through.
+ */
+
+if (($num - $site_details_length) === 1) {
+    // all the sites have been iterated through.
+} else {
+    trigger_error('All of the sites have not been iterated through.', E_USER_NOTICE);
+    error_log($today . "All of the sites have not been iterated through \n", 3, __DIR__."/../../log/error.log");
+    exit;
 }
 
 ?>
