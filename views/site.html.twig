@@ -6,28 +6,59 @@
   </head>
   <body>
     <div class="container">
-        <table>
+        <h1>{{ site.getName }}</h1>
+        <table class="table table-bordered">
             <thead>
               <tr>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
+                <th>Date</th>
+                <th>Source</th>
+                <th>Medium</th>
+                <th>Channel Grouping</th>
+                <th>Device Category</th>
+                <th>Landing Path Path</th>
+                <th>sessions</th>
+                <th>Transactions</th>
+                <th>Transaction Revenue</th>
+                <th>Page Views</th>
+                <th>bounces</th>
+                <th>Session Duration</th>
+                <th>Hits</th>
+                <th>Total Events</th>
+                <th>Unique Events</th>
+                <th>Users</th>
+                <th>Entrances</th>
+                <th>Exits</th>
+
               </tr>
             </thead>
             <tbody>
+              {% for analytic in analytics %}
               <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td>{{ analytic.date }}</td>
+                <td>{{ analytic.source }}</td>
+                <td>{{ analytic.medium }}</td>
+                <td>{{ analytic.channelGrouping }}</td>
+                <td>{{ analytic.deviceCategory }}</td>
+                <td>{{ analytic.landingPagePath }}</td>
+                <td>{{ analytic.sessions }}</td>
+                <td>{{ analytic.transactions }}</td>
+                <td>{{ analytic.transactionRevenue }}</td>
+                <td>{{ analytic.pageViews }}</td>
+                <td>{{ analytic.bounces }}</td>
+                <td>{{ analytic.sessionDuration }}</td>
+                <td>{{ analytic.hits }}</td>
+                <td>{{ analytic.totalEvents }}</td>
+                <td>{{ analytic.uniqueEvents }}</td>
+                <td>{{ analytic.users }}</td>
+                <td>{{ analytic.entrances }}</td>
+                <td>{{ analytic.exits }}</td>
+
+
               </tr>
+              {% endfor %}
             </tbody>
             </table>
         <ul>
-            {% for analytic in analytics %}
-                <li>{{ analytic.date }}</li>
-            {% endfor %}
         </ul>
 
     </div>
