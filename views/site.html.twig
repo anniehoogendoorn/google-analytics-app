@@ -6,9 +6,27 @@
   </head>
   <body>
     <div class="container">
+        <table>
+            <thead>
+              <tr>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+            </tbody>
+            </table>
         <ul>
             {% for analytic in analytics %}
-                <li>{{ analytic }}</li>
+                <li>{{ analytic.date }}</li>
             {% endfor %}
         </ul>
 

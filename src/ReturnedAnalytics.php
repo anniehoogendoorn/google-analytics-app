@@ -418,9 +418,9 @@
         * gets data from analytics table in data warehouse.
         */
 
-        function getAll($id)
+        static function getAll($id)
         {
-            $data = Array();
+            $data2 = array();
             $returned_data = $GLOBALS['DB']->query("SELECT * FROM analytics_site" . $id);
             foreach($returned_data as $data) {
                 $date = $data['date'];
@@ -441,12 +441,11 @@
                 $users = $data['users'];
                 $entrances = $data['entrances'];
                 $exits = $data['exits'];
-                $id = $data['id'];
 
-                $analytics_object = new ReturnedAnalytics($date, $source, $medium, $channel_grouping, $device_category, $landing_page_path, $sessions, $transactions, $transaction_revenue, $page_views, $bounces, $session_duration, $hits, $total_events, $unique_events, $users, $entrances, $exits, $id);
-                array_push($data, $analytics_object);
+                $analytics_object = new ReturnedAnalytics($date, $source, $medium, $channel_grouping, $device_category, $landing_page_path, $sessions, $transactions, $transaction_revenue, $page_views, $bounces, $session_duration, $hits, $total_events, $unique_events, $users, $entrances, $exits);
+                array_push($data2, $analytics_object);
             }
-            return $data;
+            return $data2;
         }
 
     }
