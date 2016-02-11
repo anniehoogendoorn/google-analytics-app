@@ -6,7 +6,7 @@
 	*/
 
 	require_once "src/ReturnedAnalytics.php";
-    require_once "aws_user.php";
+    require "aws_user.php";
 
 	try {
 		$server = $server_placeholder;
@@ -18,7 +18,7 @@
 		$db->setAttribute(PDO::ATTR_ERRMODE,PDO::ERRMODE_EXCEPTION);
 		$db->exec("SET NAMES 'utf8'");
 	} catch (Exception $e) {
-	  	echo "Could not connect to the database";
+	  	echo "Could not connect to the database in " .$e->getFile(). "\n";
 	  exit;
 	}
 
@@ -119,7 +119,7 @@
 			$entrances = '';
 			$exits = '';
 			$id = null;
-            $test_returnedOne = new ReturnedAnalyticsOne($date, $source, $medium, $channel_grouping, $device_category, $landing_page_path, $sessions, $transactions, $transaction_revenue, $page_views, $bounces, $session_duration, $hits, $total_events, $unique_events, $users, $entrances, $exits, $id);
+            $test_returnedOne = new ReturnedAnalytics($date, $source, $medium, $channel_grouping, $device_category, $landing_page_path, $sessions, $transactions, $transaction_revenue, $page_views, $bounces, $session_duration, $hits, $total_events, $unique_events, $users, $entrances, $exits, $id);
 
             //Act
 

@@ -9,6 +9,7 @@ Please note! The user_data.php and client_secrets.p12 files are not included and
 ```
 $ composer install
 ```
+_._
 
 ##Instructions to recreate this project
 
@@ -99,6 +100,13 @@ $username = ‘your-username-here’;
 $password = ‘your-password-here’;
 $db = new PDO($server, $username, $password);
 ```
+####About Tests
+
+There are three parts to a PHPUnit test method: Arrange, Act, and Assert. Arrange gathers all of the "materials" we need to run our tests, like creating instances of classes or setting variables. Act runs the actual method that we are testing. Assert tells our tests what to expect from the output of our method.
+
+Use the command ```$ ./vendor/bin/phpunit``` tests to run the tests. If you would like to just use ```$ phpunit tests```, you can first run ```$ export PATH=$PATH:./vendor/bin``` on a Mac.
+
+_._
 
 ###Legal
 
