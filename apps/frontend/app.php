@@ -52,7 +52,7 @@
     });
 
     $app->get('/site/{id}', function($id) use ($app) {
-        return $app['twig']->render('site.html.twig', array('analytics' => ReturnedAnalytics::getAll()));
+        return $app['twig']->render('site.html.twig', array('analytics' => ReturnedAnalytics::getAll($id)));
     });
 
     return $app;
