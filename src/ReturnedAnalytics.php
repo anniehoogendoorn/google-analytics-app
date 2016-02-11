@@ -355,7 +355,7 @@
 
 
                 // uncommet to view output in console
-                // print_r($analytics_object);
+                print_r($analytics_object);
 
                 // uncomment to save to DB
                 // $analytics_object->saveAll($analytics_site);
@@ -408,7 +408,7 @@
                 // table was found.
                 echo $analytics_site. " was found \n";
 
-                $GLOBALS['DB']->exec("INSERT INTO " . $analytics_site . " (date, source, medium, channel_grouping, device_category, landing_page_path, sessions, transactions, transaction_revenue, page_views, bounces, session_duration, hits, total_events, unique_events, users, entrances, exits) VALUES ('{$this->date}', '{$this->source}', '{$this->medium}', '{$this->channel_grouping}', '{$this->device_category}', '{$this->sessions}', '{$this->landing_page_path}', '{$this->transactions}', '{$this->transaction_revenue}','{$this->page_views}', '{$this->bounces}', '{$this->session_duration}', '{$this->hits}', '{$this->total_events}', '{$this->unique_events}', '{$this->users}', '{$this->entrances}', '{$this->exits}')");
+                $GLOBALS['DB']->exec("INSERT INTO " . $analytics_site . " (date, source, medium, channel_grouping, device_category, landing_page_path, sessions, transactions, transaction_revenue, page_views, bounces, session_duration, hits, total_events, unique_events, users, entrances, exits) VALUES ('{$this->date}', '{$this->source}', '{$this->medium}', '{$this->channel_grouping}', '{$this->device_category}', '{$this->landing_page_path}', '{$this->sessions}', '{$this->transactions}', '{$this->transaction_revenue}','{$this->page_views}', '{$this->bounces}', '{$this->session_duration}', '{$this->hits}', '{$this->total_events}', '{$this->unique_events}', '{$this->users}', '{$this->entrances}', '{$this->exits}')");
                 $this->id = $GLOBALS['DB']->lastInsertId();
 
         }
@@ -423,6 +423,7 @@
             $data2 = array();
             $returned_data = $GLOBALS['DB']->query("SELECT * FROM analytics_site" . $id);
             foreach($returned_data as $data) {
+
                 $date = $data['date'];
                 $source = $data['source'];
                 $medium = $data['medium'];

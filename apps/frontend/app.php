@@ -52,9 +52,10 @@
     });
 
     $app->get('/site/{id}', function($id) use ($app) {
-        $site = Sites::find($id);
-        print_r($site);
-        return $app['twig']->render('site.html.twig', array('site' => $site, 'analytics' => ReturnedAnalytics::getAll($id)));
+        $sites = Sites::getAll();
+        function name($sites,$id){ $id = $id - 1; return $sites[$id];};
+        $sites = name($sites,$id);
+        return $app['twig']->render('site.html.twig', array('sites' => $sites, 'analytics' => ReturnedAnalytics::getAll($id)));
     });
 
     // $app->get('/site/{id}', function($id){
