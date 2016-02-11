@@ -52,8 +52,21 @@
     });
 
     $app->get('/site/{id}', function($id) use ($app) {
-        return $app['twig']->render('site.html.twig', array('analytics' => ReturnedAnalytics::getAll()));
+      // $analytics = ReturnedAnalytics::getAll($id);
+      //
+      // var_dump($analytics) ;
+
+        return $app['twig']->render('site.html.twig', array('analytics' => ReturnedAnalytics::getAll($id)));
     });
+
+    // $app->get('/site/{id}', function($id){
+    //   $analytics = ReturnedAnalytics::getAll($id);
+    //
+    //   print_r($analytics) ;
+    //   return $app['twig']->render('site.html.twig', array('analytics' => ReturnedAnalytics::getAll($id)));
+    //
+    // });
+
 
     return $app;
 
