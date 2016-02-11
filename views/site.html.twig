@@ -6,7 +6,7 @@
   </head>
   <body>
     <div class="container">
-        <h1>{{ site.getName }}</h1>
+        <h1>{{ site }}</h1>
         <table class="table table-bordered">
             <thead>
               <tr>
@@ -31,7 +31,7 @@
 
               </tr>
             </thead>
-            <tbody>
+            <tbody class="table-striped">
               {% for analytic in analytics %}
               <tr>
                 <td>{{ analytic.date }}</td>
