@@ -1,11 +1,19 @@
-#Data Warehouse Project
+#Data Warehouse Project - refactor branch
 
 Please note! The user_data.php and client_secrets.p12 files are not included and need and need to be added for this app to run.
 
-Enter this command in your terminal to download and uncompress these files:
+* Add client_secrets.p12 to root folder
+* Add user_data.php to "src" folder
+
+##Don't forget:
+
 ```
-$ curl http://data.sq1west.com/secret-stuff.tar.gz | tar zx
+$ composer install
 ```
+
+###Frontend (running the app)
+
+Start up a local PHP server ```php -S locolhost:8080``` from within the "web" directory within the project's folder and point your browser to whatever local host server you have created.
 
 ##Instructions to recreate this project
 
@@ -96,6 +104,13 @@ $username = ‘your-username-here’;
 $password = ‘your-password-here’;
 $db = new PDO($server, $username, $password);
 ```
+####About Tests
+
+* Be sure that you create a duplicate database ( eg: clientdata_test ) using sequelPro or phpMyAdmin to run your tests.
+
+There are three parts to a PHPUnit test method: Arrange, Act, and Assert. Arrange gathers all of the "materials" we need to run our tests, like creating instances of classes or setting variables. Act runs the actual method that we are testing. Assert tells our tests what to expect from the output of our method.
+
+Use the command ```$ ./vendor/bin/phpunit``` tests to run the tests. If you would like to just use ```$ phpunit tests```, you can first run ```$ export PATH=$PATH:./vendor/bin``` on a Mac.
 
 ###Legal
 

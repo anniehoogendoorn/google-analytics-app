@@ -2,7 +2,7 @@
 
     class Sites
     {
-        private $id;
+        public $id;
         private $services_id;
         public $name;
         public $analytics_profile;
@@ -75,6 +75,21 @@
             }
             return $sites;
         }
+
+        static function find($search_id)
+        {
+            $found_site = '';
+            $sites = Sites::getAll();
+            foreach($sites as $site) {
+              // $site_id = $site->getId();
+              if ( $id === $search_id ) {
+                  $found_site = $site;
+                  print_r($found_site);
+                  return $found_site;
+              }
+            }
+        }
+
 
 
 
