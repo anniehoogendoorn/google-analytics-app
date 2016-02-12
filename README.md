@@ -5,10 +5,16 @@ Please note! The user_data.php and client_secrets.p12 files are not included and
 * Add client_secrets.p12 to root folder
 * Add user_data.php to "src" folder
 
-#####Don't forget:
+##Don't forget:
+
 ```
 $ composer install
 ```
+
+###Frontend (running the app)
+
+Start up a local PHP server ```php -S locolhost:8080``` from within the "web" directory within the project's folder and point your browser to whatever local host server you have created.
+
 ##Instructions to recreate this project
 
 ###Google Analytics API

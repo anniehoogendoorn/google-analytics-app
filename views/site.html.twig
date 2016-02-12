@@ -13,61 +13,61 @@
     </head>
     <body>
 
-    <div class="container-fluid">
-        <a class="back" href="/" >back</a>
-        <div class="page-header">
-            <h1>{{ sites.name }}</h1>
+        <div class="container-fluid">
+            <a class="back" href="/" >back</a>
+            <div class="page-header">
+                <h1>{{ sites.name }}</h1>
+            </div>
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Source</th>
+                        <th>Medium</th>
+                        <th>Channel Grouping</th>
+                        <th>Device Category</th>
+                        <th>Landing-Page Path</th>
+                        <th>sessions</th>
+                        <th>Transactions</th>
+                        <th>Transaction Revenue</th>
+                        <th>Page Views</th>
+                        <th>bounces</th>
+                        <th>Session Duration</th>
+                        <th>Hits</th>
+                        <th>Total Events</th>
+                        <th>Unique Events</th>
+                        <th>Users</th>
+                        <th>Entrances</th>
+                        <th>Exits</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for analytic in analytics %}
+                    <tr>
+                        <td>{{ analytic.date }}</td>
+                        <td>{{ analytic.source }}</td>
+                        <td>{{ analytic.medium }}</td>
+                        <td>{{ analytic.channelGrouping }}</td>
+                        <td>{{ analytic.deviceCategory }}</td>
+                        <td>{{ analytic.landingPagePath }}</td>
+                        <td>{{ analytic.sessions }}</td>
+                        <td>{{ analytic.transactions }}</td>
+                        <td>{{ analytic.transactionRevenue }}</td>
+                        <td>{{ analytic.pageViews }}</td>
+                        <td>{{ analytic.bounces }}</td>
+                        <td>{{ analytic.sessionDuration }}</td>
+                        <td>{{ analytic.hits }}</td>
+                        <td>{{ analytic.totalEvents }}</td>
+                        <td>{{ analytic.uniqueEvents }}</td>
+                        <td>{{ analytic.users }}</td>
+                        <td>{{ analytic.entrances }}</td>
+                        <td>{{ analytic.exits }}</td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+            </table>
         </div>
-    <div class="table-responsive">
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Date</th>
-                    <th>Source</th>
-                    <th>Medium</th>
-                    <th>Channel Grouping</th>
-                    <th>Device Category</th>
-                    <th>Landing-Page Path</th>
-                    <th>sessions</th>
-                    <th>Transactions</th>
-                    <th>Transaction Revenue</th>
-                    <th>Page Views</th>
-                    <th>bounces</th>
-                    <th>Session Duration</th>
-                    <th>Hits</th>
-                    <th>Total Events</th>
-                    <th>Unique Events</th>
-                    <th>Users</th>
-                    <th>Entrances</th>
-                    <th>Exits</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for analytic in analytics %}
-                <tr>
-                    <td>{{ analytic.date }}</td>
-                    <td>{{ analytic.source }}</td>
-                    <td>{{ analytic.medium }}</td>
-                    <td>{{ analytic.channelGrouping }}</td>
-                    <td>{{ analytic.deviceCategory }}</td>
-                    <td>{{ analytic.landingPagePath }}</td>
-                    <td>{{ analytic.sessions }}</td>
-                    <td>{{ analytic.transactions }}</td>
-                    <td>{{ analytic.transactionRevenue }}</td>
-                    <td>{{ analytic.pageViews }}</td>
-                    <td>{{ analytic.bounces }}</td>
-                    <td>{{ analytic.sessionDuration }}</td>
-                    <td>{{ analytic.hits }}</td>
-                    <td>{{ analytic.totalEvents }}</td>
-                    <td>{{ analytic.uniqueEvents }}</td>
-                    <td>{{ analytic.users }}</td>
-                    <td>{{ analytic.entrances }}</td>
-                    <td>{{ analytic.exits }}</td>
-                </tr>
-              {% endfor %}
-            </tbody>
-        </table>
-    </div>
 
     </body>
 </html>

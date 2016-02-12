@@ -16,24 +16,23 @@
     </head>
     <body>
 
-    <div class="container">
-        <div class="page-header">
-            <h1>Provenance</h1>
+        <div class="container">
+            <div class="page-header">
+                <h1>Provenance</h1>
+            </div>
+
+            {% if sites is not empty %}
+
+            <ul class="list-unstyled">
+                {% for site in sites %}
+                <li><a href='/site/{{ site.id }}'>{{ site.getName }}</a></li>
+                {% endfor %}
+            </ul>
+
+            {% else %}
+                <p>There are no sites saved in the table</p>
+            {% endif %}
         </div>
-
-        {% if sites is not empty %}
-
-        <ul class="list-unstyled">
-            {% for site in sites %}
-            <li><a href='/site/{{ site.id }}'>{{ site.getName }}</a></li>
-            {% endfor %}
-        </ul>
-
-        {% else %}
-            <p>There are no sites saved in the table</p>
-        {% endif %}
-
-    </div>
 
     </body>
 </html>
